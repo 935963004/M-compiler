@@ -164,9 +164,15 @@ public class SemanticChecker extends ScopeBuilder
         else {
             if (node.getExpr() == null) throw new SemanticError(node.getLocation(), "\"return\" should return something");
             node.getExpr().accept(this);
-            if (node.getExpr().getType() instanceof NullType && !(currentReturnType instanceof ArrayType || currentReturnType instanceof ClassType)) throw new SemanticError(node.getLocation(), "Return type shouldn't be null type");
-            if (!(node.getExpr().getType().equals(currentReturnType))) throw new SemanticError(node.getLocation(), "Return type should be the same as the function's type");
+            if (checkReturn(node.getExpr().getType())) throw new SemanticError(node.getLocation(), "Return type not match");
         }
+    }
+
+    private boolean checkReturn(Type returnType)
+    {
+        if (returnType instanceof NullType) return !(currentReturnType instanceof ArrayType || currentReturnType instanceof ClassType);
+        if (returnType.equals(currentReturnType)) return false;
+        return true;
     }
 
     @Override
@@ -175,8 +181,8 @@ public class SemanticChecker extends ScopeBuilder
         node.getExpr().accept(this);
         if (!(node.getExpr().getType() instanceof IntType)) throw new SemanticError(node.getLocation(), "Expression's type should be int type");
         if (!node.getExpr().isLeftValue()) throw new SemanticError(node.getLocation(), "Expression should be left value");
-        node.getExpr().setType(IntType.getIntType());
-        node.getExpr().setLeftValue(false);
+        node.setType(IntType.getIntType());
+        node.setLeftValue(false);
     }
 
     @Override
