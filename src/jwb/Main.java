@@ -38,7 +38,7 @@ public class Main
 
     private static void buildAST() throws Exception
     {
-        String inFile = "D:\\QQPCmgr\\Desktop\\src\\jwb\\testcase\\test0.mx";
+        String inFile = null;
         InputStream inS;
         if (inFile == null) inS = System.in;
         else inS = new FileInputStream(inFile);
