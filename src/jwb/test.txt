@@ -1,9 +1,0 @@
-class a{
-    int b;
-}
-
-int main()
-{
-    string a = "gzp";
-    return 0;
-}
