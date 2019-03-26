@@ -171,7 +171,7 @@ public class SemanticChecker extends ScopeBuilder
     private boolean checkReturn(Type returnType)
     {
         if (returnType instanceof NullType) return !(currentReturnType instanceof ArrayType || currentReturnType instanceof ClassType);
-        if (returnType.equals(currentReturnType)) return false;
+        if (!returnType.equals(currentReturnType)) return false;
         return true;
     }
 
