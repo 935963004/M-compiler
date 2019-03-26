@@ -39,7 +39,7 @@ public class Main
     private static void buildAST() throws Exception
     {
         String inFile = "D:\\QQPCmgr\\Desktop\\src\\jwb\\test.txt";
-        inFile = null;
+        //inFile = null;
         InputStream inS;
         if (inFile == null) inS = System.in;
         else inS = new FileInputStream(inFile);

@@ -1,42 +1,36 @@
-int f() {
-    int[] a = ((new int[2][3][3])[0])[1];
-    {
-        string b = (new string[3])[0];
-        {
-            int c = ((new string[3][3][3])[0][1])[2].length();
-            return c;
-        }
-    }
+int h(){
+	if (true) int c = 1;
+	return c;
 }
-int main() {
-    string a = "abc";
-    print(a);
-    println(toString(a.length()));
-    print(getString());
-    print(toString(3));
-    string c = a.substring(0,10);
-    int b  = a.parseInt();
-    {
-        int b = a.ord(3);
-        {
-            string b;
-        }
-        return b;
-    }
-    return getInt();
+
+int k(){
+	if (true) ;
+	else int d = 1;
+	return d;
 }
+
+int l(){
+	if (true) ;
+	else if (true) int e = 1;
+	return e;
+}
+
+int main(){
+	return 0;
+}
+
 
 
 
 /*!! metadata:
 === comment ===
-丁尧尧 测试内置函数和类 最新版
+Test declaration in scope-2-5140519064-youyurong.mx
 === is_public ===
 True
 === assert ===
-success_compile
+failure_compile
 === timeout ===
-0
+0.0
 === input ===
 
 === phase ===
@@ -44,6 +38,6 @@ semantic pretest
 === output ===
 
 === exitcode ===
-0
+
 
 !!*/
