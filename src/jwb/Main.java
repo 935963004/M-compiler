@@ -61,7 +61,7 @@ public class Main
 
     private static void semanticCheck()
     {
-        GlobalScopeBuilder globalScopeBuilder = new GlobalScopeBuilder();
+        ClassFuncBuilder globalScopeBuilder = new ClassFuncBuilder();
         globalScopeBuilder.visit(ast);
         globalScope = globalScopeBuilder.getScope();
         new ClassVarMemBuilder(globalScope).visit(ast);

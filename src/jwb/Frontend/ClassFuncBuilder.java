@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class GlobalScopeBuilder extends ScopeBuilder
+public class ClassFuncBuilder extends ScopeBuilder
 {
     private Scope scope = new Scope();
 
