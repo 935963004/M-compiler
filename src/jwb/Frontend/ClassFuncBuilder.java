@@ -63,7 +63,7 @@ public class ClassFuncBuilder extends ScopeBuilder
         entity.setBuiltIn(true);
         entity.setParameters(parameters);
         entity.setReturnType(returnType);
-        if (!scope1.isTop()) entity.setMember(true);
+        entity.setMember(!scope1.isTop());
         scope1.put(name, "@F" + name, entity);
     }
 
