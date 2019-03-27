@@ -1,6 +1,6 @@
 package AST;
 
-import Scope.FuncEntity;
+import ScopeEntity.FuncEntity;
 
 import java.util.List;
 

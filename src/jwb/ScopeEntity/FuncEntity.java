@@ -1,4 +1,4 @@
-package Scope;
+package ScopeEntity;
 
 import AST.FuncDeclNode;
 import AST.VarDeclNode;

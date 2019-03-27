@@ -1,6 +1,6 @@
 package AST;
 
-import Scope.Scope;
+import ScopeEntity.Scope;
 
 import java.util.List;
 

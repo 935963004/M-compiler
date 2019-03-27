@@ -4,9 +4,9 @@ import AST.ClassDeclNode;
 import AST.DeclNode;
 import AST.ProgramNode;
 import AST.VarDeclNode;
-import Scope.Scope;
-import Scope.ClassEntity;
-import Scope.VarEntity;
+import ScopeEntity.Scope;
+import ScopeEntity.ClassEntity;
+import ScopeEntity.VarEntity;
 import Type.ClassType;
 import Utils.CompilerError;
 

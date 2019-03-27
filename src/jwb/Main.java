@@ -3,7 +3,7 @@ import Frontend.*;
 import Parser.MLexer;
 import Parser.MParser;
 import Parser.SyntaxErrorListener;
-import Scope.Scope;
+import ScopeEntity.Scope;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;

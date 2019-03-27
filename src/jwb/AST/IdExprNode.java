@@ -1,6 +1,6 @@
 package AST;
 
-import Scope.VarEntity;
+import ScopeEntity.VarEntity;
 
 public class IdExprNode extends ExprNode
 {

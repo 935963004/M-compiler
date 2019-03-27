@@ -1,7 +1,7 @@
 package Frontend;
 
 import AST.*;
-import Scope.*;
+import ScopeEntity.*;
 import Type.*;
 import Utils.SemanticError;
 

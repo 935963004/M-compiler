@@ -1,4 +1,4 @@
-package Scope;
+package ScopeEntity;
 
 import AST.Location;
 import Utils.SemanticError;
@@ -37,7 +37,7 @@ public class Scope
 
     public void put(String name, String key, Entity entity)
     {
-        if (!key.startsWith("@")) throw new SemanticError(String.format("Scope entity key Should start with \'@\' but get \"%s\"", key));
+        if (!key.startsWith("@")) throw new SemanticError(String.format("ScopeEntity entity key Should start with \'@\' but get \"%s\"", key));
         if (map.containsKey(key)) throw new SemanticError(String.format("Name \"%s\" has been already defined", name));
         map.put(key, entity);
     }
