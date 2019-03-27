@@ -43,7 +43,7 @@ public class SemanticChecker extends ScopeBuilder
             if (checkVarExpr(node)) throw new SemanticError(node.getLocation(), "Invalid initialization type");
         }
         VarEntity entity = new VarEntity(node);
-        if (currentScope.equals(globalScope)) entity.setGlobal(true);
+        entity.setGlobal(currentScope.equals(globalScope));
         currentScope.put(node.getLocation(), node.getName(), "@V" + node.getName(), entity);
     }
 
