@@ -71,7 +71,7 @@ public class GlobalScopeBuilder extends ScopeBuilder
     {
         FuncEntity entity = (FuncEntity) scope.get("@Fmain");
         if (entity == null) throw new SemanticError("\"main\" function not found");
-        if (!(entity.getReturnType() instanceof IntType)) throw new SemanticError("\"main\" function's returnType should be \"int\"");
+        if (!(entity.getReturnType() instanceof IntType)) throw new SemanticError("\"main\" function's return type should be int");
         if (!entity.getParameters().isEmpty()) throw new SemanticError("\"main\" function's parameters should be null");
     }
 
