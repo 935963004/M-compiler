@@ -24,9 +24,7 @@ public class SemanticChecker extends ScopeBuilder
     {
         currentScope = globalScope;
         for (DeclNode declNode : node.getDecls()) {
-            if (declNode instanceof VarDeclNode) declNode.accept(this);
-            else if (declNode instanceof FuncDeclNode) declNode.accept(this);
-            else if (declNode instanceof ClassDeclNode) declNode.accept(this);
+            if (declNode instanceof VarDeclNode || declNode instanceof FuncDeclNode || declNode instanceof ClassDeclNode) declNode.accept(this);
             else throw new CompilerError(declNode.getLocation(), "Invalid declNode");
         }
     }
