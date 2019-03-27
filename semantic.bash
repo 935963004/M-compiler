@@ -5,4 +5,4 @@
 
 set -e
 cd "$(dirname "$0")"
-java -classpath lib/antlr-4.7.2-complete.jar:bin jwb.Main
+java -classpath lib/antlr-4.7.2-complete.jar:bin Main
