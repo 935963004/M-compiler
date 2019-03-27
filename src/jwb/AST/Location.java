@@ -24,7 +24,7 @@ public class Location
         return String.format("line %d column %d", line, column);
     }
 
-    public static Location fromCtx(ParserRuleContext ctx)
+    public static Location ctxGetLoc(ParserRuleContext ctx)
     {
         return new Location(ctx.getStart());
     }

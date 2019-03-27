@@ -22,7 +22,7 @@ public class ASTBuilder extends MBaseVisitor<Node>
                 decls.add((DeclNode) decl);
             }
         }
-        return new ProgramNode(decls, Location.fromCtx(ctx));
+        return new ProgramNode(decls, Location.ctxGetLoc(ctx));
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ASTBuilder extends MBaseVisitor<Node>
         if (ctx.variableDecl() != null) return visit(ctx.variableDecl());
         else if (ctx.functionDecl() != null) return visit(ctx.functionDecl());
         else if (ctx.classDecl() != null) return visit(ctx.classDecl());
-        else throw new CompilerError(Location.fromCtx(ctx), "Invalid program section");
+        else throw new CompilerError(Location.ctxGetLoc(ctx), "Invalid program section");
     }
 
     @Override
@@ -47,7 +47,7 @@ public class ASTBuilder extends MBaseVisitor<Node>
             }
         }
         BlockStmtNode body = (BlockStmtNode) visit(ctx.block());
-        return new FuncDeclNode(returnType, name, parameterList, body, Location.fromCtx(ctx));
+        return new FuncDeclNode(returnType, name, parameterList, body, Location.ctxGetLoc(ctx));
     }
 
     @Override
@@ -61,10 +61,10 @@ public class ASTBuilder extends MBaseVisitor<Node>
                 Node memberDeclaration = visit(memberDecl);
                 if (memberDeclaration instanceof VarDeclNode) varMember.add((VarDeclNode) memberDeclaration);
                 else if (memberDeclaration instanceof FuncDeclNode) funMember.add((FuncDeclNode) memberDeclaration);
-                else throw new CompilerError(Location.fromCtx(ctx), "Invalid member declaration");
+                else throw new CompilerError(Location.ctxGetLoc(ctx), "Invalid member declaration");
             }
         }
-        return new ClassDeclNode(name, varMember, funMember, Location.fromCtx(ctx));
+        return new ClassDeclNode(name, varMember, funMember, Location.ctxGetLoc(ctx));
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ASTBuilder extends MBaseVisitor<Node>
         TypeNode type = (TypeNode) visit(ctx.typeType());
         String name = ctx.ID().getText();
         ExprNode expr = ctx.expression() == null ? null : (ExprNode) visit(ctx.expression());
-        return new VarDeclNode(type, name, expr, Location.fromCtx(ctx));
+        return new VarDeclNode(type, name, expr, Location.ctxGetLoc(ctx));
     }
 
     @Override
@@ -81,7 +81,7 @@ public class ASTBuilder extends MBaseVisitor<Node>
     {
         if (ctx.variableDecl() != null) return visit(ctx.variableDecl());
         else if (ctx.functionDecl() != null) return visit(ctx.functionDecl());
-        else throw new CompilerError(Location.fromCtx(ctx), "Invalid member declaration");
+        else throw new CompilerError(Location.ctxGetLoc(ctx), "Invalid member declaration");
     }
 
     @Override
@@ -89,21 +89,21 @@ public class ASTBuilder extends MBaseVisitor<Node>
     {
         TypeNode type = (TypeNode) visit(ctx.typeType());
         String name = ctx.ID().getText();
-        return new VarDeclNode(type, name, null, Location.fromCtx(ctx));
+        return new VarDeclNode(type, name, null, Location.ctxGetLoc(ctx));
     }
 
     @Override
     public Node visitFunctionType(MParser.FunctionTypeContext ctx)
     {
         if (ctx.typeType() != null) return visit(ctx.typeType());
-        else return new TypeNode(VoidType.getVoidType(), Location.fromCtx(ctx));
+        else return new TypeNode(VoidType.getVoidType(), Location.ctxGetLoc(ctx));
     }
 
     @Override
     public Node visitArrayType(MParser.ArrayTypeContext ctx)
     {
         TypeNode baseType = (TypeNode) visit(ctx.typeType());
-        return new TypeNode(new ArrayType(baseType.getType()), Location.fromCtx(ctx));
+        return new TypeNode(new ArrayType(baseType.getType()), Location.ctxGetLoc(ctx));
     }
 
     @Override
@@ -115,21 +115,21 @@ public class ASTBuilder extends MBaseVisitor<Node>
     @Override
     public Node visitBasicType(MParser.BasicTypeContext ctx)
     {
-        if (ctx.INT() != null) return new TypeNode(IntType.getIntType(), Location.fromCtx(ctx));
-        else if (ctx.BOOL() != null) return new TypeNode(BoolType.getBoolType(), Location.fromCtx(ctx));
-        else if (ctx.STRING() != null) return new TypeNode(StringType.getStringType(), Location.fromCtx(ctx));
-        else if (ctx.ID() != null) return new TypeNode(new ClassType(ctx.ID().getText()), Location.fromCtx(ctx));
-        else throw new CompilerError(Location.fromCtx(ctx), "Invalid type");
+        if (ctx.INT() != null) return new TypeNode(IntType.getIntType(), Location.ctxGetLoc(ctx));
+        else if (ctx.BOOL() != null) return new TypeNode(BoolType.getBoolType(), Location.ctxGetLoc(ctx));
+        else if (ctx.STRING() != null) return new TypeNode(StringType.getStringType(), Location.ctxGetLoc(ctx));
+        else if (ctx.ID() != null) return new TypeNode(new ClassType(ctx.ID().getText()), Location.ctxGetLoc(ctx));
+        else throw new CompilerError(Location.ctxGetLoc(ctx), "Invalid type");
     }
 
     @Override
     public Node visitNonArrayTypeCreator(MParser.NonArrayTypeCreatorContext ctx)
     {
-        if (ctx.INT() != null) return new TypeNode(IntType.getIntType(), Location.fromCtx(ctx));
-        else if (ctx.BOOL() != null) return new TypeNode(BoolType.getBoolType(), Location.fromCtx(ctx));
-        else if (ctx.STRING() != null) return new TypeNode(StringType.getStringType(), Location.fromCtx(ctx));
-        else if (ctx.ID() != null) return new TypeNode(new ClassType(ctx.ID().getText()), Location.fromCtx(ctx));
-        else throw new CompilerError(Location.fromCtx(ctx), "Invalid type");
+        if (ctx.INT() != null) return new TypeNode(IntType.getIntType(), Location.ctxGetLoc(ctx));
+        else if (ctx.BOOL() != null) return new TypeNode(BoolType.getBoolType(), Location.ctxGetLoc(ctx));
+        else if (ctx.STRING() != null) return new TypeNode(StringType.getStringType(), Location.ctxGetLoc(ctx));
+        else if (ctx.ID() != null) return new TypeNode(new ClassType(ctx.ID().getText()), Location.ctxGetLoc(ctx));
+        else throw new CompilerError(Location.ctxGetLoc(ctx), "Invalid type");
     }
 
     @Override
@@ -143,7 +143,7 @@ public class ASTBuilder extends MBaseVisitor<Node>
     {
         if (ctx.expression() == null) return null;
         ExprNode expr = (ExprNode) visit(ctx.expression());
-        return new ExprStmtNode(expr, Location.fromCtx(ctx));
+        return new ExprStmtNode(expr, Location.ctxGetLoc(ctx));
     }
 
     @Override
@@ -156,7 +156,7 @@ public class ASTBuilder extends MBaseVisitor<Node>
                 if (stmtAndVarDecl != null) stmtsAndVarDecls.add(stmtAndVarDecl);
             }
         }
-        return new BlockStmtNode(stmtsAndVarDecls, Location.fromCtx(ctx));
+        return new BlockStmtNode(stmtsAndVarDecls, Location.ctxGetLoc(ctx));
     }
 
     @Override
@@ -177,7 +177,7 @@ public class ASTBuilder extends MBaseVisitor<Node>
         ExprNode condition = (ExprNode) visit(ctx.expression());
         StmtNode thenStmt = (StmtNode) visit(ctx.thenStmt);
         StmtNode elseStmt = ctx.elseStmt == null ? null : (StmtNode) visit(ctx.elseStmt);
-        return new IfElseStmtNode(condition, thenStmt, elseStmt, Location.fromCtx(ctx));
+        return new IfElseStmtNode(condition, thenStmt, elseStmt, Location.ctxGetLoc(ctx));
     }
 
     @Override
@@ -185,7 +185,7 @@ public class ASTBuilder extends MBaseVisitor<Node>
     {
         ExprNode condition = (ExprNode) visit(ctx.expression());
         StmtNode stmt = (StmtNode) visit(ctx.statement());
-        return new WhileStmtNode(condition, stmt, Location.fromCtx(ctx));
+        return new WhileStmtNode(condition, stmt, Location.ctxGetLoc(ctx));
     }
 
     @Override
@@ -195,26 +195,26 @@ public class ASTBuilder extends MBaseVisitor<Node>
         ExprNode cond = ctx.cond == null ? null : (ExprNode) visit(ctx.cond);
         ExprNode update = ctx.update == null ? null : (ExprNode) visit(ctx.update);
         StmtNode stmt = (StmtNode) visit(ctx.statement());
-        return new ForStmtNode(init, cond, update, stmt, Location.fromCtx(ctx));
+        return new ForStmtNode(init, cond, update, stmt, Location.ctxGetLoc(ctx));
     }
 
     @Override
     public Node visitContinueStmt(MParser.ContinueStmtContext ctx)
     {
-        return new ContinueStmtNode(Location.fromCtx(ctx));
+        return new ContinueStmtNode(Location.ctxGetLoc(ctx));
     }
 
     @Override
     public Node visitBreakStmt(MParser.BreakStmtContext ctx)
     {
-        return new BreakStmtNode(Location.fromCtx(ctx));
+        return new BreakStmtNode(Location.ctxGetLoc(ctx));
     }
 
     @Override
     public Node visitReturnStmt(MParser.ReturnStmtContext ctx)
     {
         ExprNode expr = ctx.expression() == null ? null : (ExprNode) visit(ctx.expression());
-        return new ReturnStmtNode(expr, Location.fromCtx(ctx));
+        return new ReturnStmtNode(expr, Location.ctxGetLoc(ctx));
     }
 
     @Override
@@ -234,15 +234,15 @@ public class ASTBuilder extends MBaseVisitor<Node>
         else if (ctx.op.getText().equals("-")) op = PrefixExprNode.prefixOp.NEG;
         else if (ctx.op.getText().equals("!")) op = PrefixExprNode.prefixOp.LOGIC_NOT;
         else if (ctx.op.getText().equals("~")) op = PrefixExprNode.prefixOp.BITWISE_NOT;
-        else throw new CompilerError(Location.fromCtx(ctx), "Invalid prefix operator");
-        return new PrefixExprNode(op, expr, Location.fromCtx(ctx));
+        else throw new CompilerError(Location.ctxGetLoc(ctx), "Invalid prefix operator");
+        return new PrefixExprNode(op, expr, Location.ctxGetLoc(ctx));
     }
 
     @Override
     public Node visitArrayExpr(MParser.ArrayExprContext ctx)
     {
         ExprNode arr = (ExprNode) visit(ctx.arr), sub = (ExprNode) visit(ctx.sub);
-        return new ArrayExprNode(arr, sub, Location.fromCtx(ctx));
+        return new ArrayExprNode(arr, sub, Location.ctxGetLoc(ctx));
     }
 
     @Override
@@ -252,8 +252,8 @@ public class ASTBuilder extends MBaseVisitor<Node>
         SuffixExprNode.suffixOp op;
         if (ctx.op.getText().equals("++")) op = SuffixExprNode.suffixOp.INC;
         else if (ctx.op.getText().equals("--")) op = SuffixExprNode.suffixOp.DEC;
-        else throw new CompilerError(Location.fromCtx(ctx), "Invalid suffix operator");
-        return new SuffixExprNode(op, expr, Location.fromCtx(ctx));
+        else throw new CompilerError(Location.ctxGetLoc(ctx), "Invalid suffix operator");
+        return new SuffixExprNode(op, expr, Location.ctxGetLoc(ctx));
     }
 
     @Override
@@ -280,9 +280,9 @@ public class ASTBuilder extends MBaseVisitor<Node>
             case "|": op = BinaryExprNode.binaryOp.BITWISE_OR; break;
             case "&&": op = BinaryExprNode.binaryOp.LOGIC_AND; break;
             case "||": op = BinaryExprNode.binaryOp.LOGIC_OR; break;
-            default: throw new CompilerError(Location.fromCtx(ctx), "Invalid binary operator");
+            default: throw new CompilerError(Location.ctxGetLoc(ctx), "Invalid binary operator");
         }
-        return new BinaryExprNode(op, lhs, rhs, Location.fromCtx(ctx));
+        return new BinaryExprNode(op, lhs, rhs, Location.ctxGetLoc(ctx));
     }
 
     @Override
@@ -290,7 +290,7 @@ public class ASTBuilder extends MBaseVisitor<Node>
     {
         ExprNode expr = (ExprNode) visit(ctx.expression());
         String name = ctx.ID().getText();
-        return new MemExprNode(expr, name, Location.fromCtx(ctx));
+        return new MemExprNode(expr, name, Location.ctxGetLoc(ctx));
     }
 
     @Override
@@ -304,27 +304,27 @@ public class ASTBuilder extends MBaseVisitor<Node>
                 paraList.add(para);
             }
         }
-        return new FuncCallExprNode(expr, paraList, Location.fromCtx(ctx));
+        return new FuncCallExprNode(expr, paraList, Location.ctxGetLoc(ctx));
     }
 
     @Override
     public Node visitAssignExpr(MParser.AssignExprContext ctx)
     {
         ExprNode lhs = (ExprNode) visit(ctx.lhs), rhs = (ExprNode) visit(ctx.rhs);
-        return new AssignExprNode(lhs, rhs, Location.fromCtx(ctx));
+        return new AssignExprNode(lhs, rhs, Location.ctxGetLoc(ctx));
     }
 
     @Override
     public Node visitIdExpr(MParser.IdExprContext ctx)
     {
         String name = ctx.ID().getText();
-        return new IdExprNode(name, Location.fromCtx(ctx));
+        return new IdExprNode(name, Location.ctxGetLoc(ctx));
     }
 
     @Override
     public Node visitThisExpr(MParser.ThisExprContext ctx)
     {
-        return new ThisExprNode(Location.fromCtx(ctx));
+        return new ThisExprNode(Location.ctxGetLoc(ctx));
     }
 
     @Override
@@ -341,9 +341,9 @@ public class ASTBuilder extends MBaseVisitor<Node>
             value = Integer.parseInt(ctx.getText());
         }
         catch (Exception e) {
-            throw new CompilerError(Location.fromCtx(ctx), "Invalid number: " + e);
+            throw new CompilerError(Location.ctxGetLoc(ctx), "Invalid number: " + e);
         }
-        return new NumExprNode(value, Location.fromCtx(ctx));
+        return new NumExprNode(value, Location.ctxGetLoc(ctx));
     }
 
     @Override
@@ -357,18 +357,18 @@ public class ASTBuilder extends MBaseVisitor<Node>
                 if (str.charAt(i + 1) == '\\') s.append('\\');
                 else if (str.charAt(i + 1) == 'n') s.append('\n');
                 else if (str.charAt(i + 1) == '\"') s.append('\"');
-                else throw new CompilerError(Location.fromCtx(ctx), "Invalid string");
+                else throw new CompilerError(Location.ctxGetLoc(ctx), "Invalid string");
                 ++i;
             }
             else s.append(str.charAt(i));
         }
-        return new StrExprNode(s.toString(), Location.fromCtx(ctx));
+        return new StrExprNode(s.toString(), Location.ctxGetLoc(ctx));
     }
 
     @Override
     public Node visitNullExpr(MParser.NullExprContext ctx)
     {
-        return new NullExprNode(Location.fromCtx(ctx));
+        return new NullExprNode(Location.ctxGetLoc(ctx));
     }
 
     @Override
@@ -377,14 +377,14 @@ public class ASTBuilder extends MBaseVisitor<Node>
         boolean value;
         if (ctx.getText().equals("true")) value = true;
         else if (ctx.getText().equals("false")) value = false;
-        else throw new CompilerError(Location.fromCtx(ctx), "Invalid bool constant");
-        return new BoolConstExprNode(value, Location.fromCtx(ctx));
+        else throw new CompilerError(Location.ctxGetLoc(ctx), "Invalid bool constant");
+        return new BoolConstExprNode(value, Location.ctxGetLoc(ctx));
     }
 
     @Override
     public Node visitErrorCreator(MParser.ErrorCreatorContext ctx)
     {
-        throw new CompilerError(Location.fromCtx(ctx), "Invalid creator");
+        throw new CompilerError(Location.ctxGetLoc(ctx), "Invalid creator");
     }
 
     @Override
@@ -400,13 +400,13 @@ public class ASTBuilder extends MBaseVisitor<Node>
         }
         int dimNum = (ctx.getChildCount() - cnt - 1) / 2;
         for (int i = 0; i < dimNum; ++i) type.setType(new ArrayType(type.getType()));
-        return new NewExprNode(type, exprList, dimNum, Location.fromCtx(ctx));
+        return new NewExprNode(type, exprList, dimNum, Location.ctxGetLoc(ctx));
     }
 
     @Override
     public Node visitNonArrayCreator(MParser.NonArrayCreatorContext ctx)
     {
         TypeNode type = (TypeNode) visit(ctx.nonArrayTypeCreator());
-        return new NewExprNode(type, null, 0, Location.fromCtx(ctx));
+        return new NewExprNode(type, null, 0, Location.ctxGetLoc(ctx));
     }
 }
