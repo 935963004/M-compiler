@@ -8,7 +8,7 @@ import Scope.Scope;
 import Scope.ClassEntity;
 import Scope.VarEntity;
 import Type.ClassType;
-import utils.CompilerError;
+import Utils.CompilerError;
 
 public class ClassVarMemBuilder extends ScopeBuilder
 {

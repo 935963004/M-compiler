@@ -3,7 +3,7 @@ package Frontend;
 import AST.*;
 import Scope.*;
 import Type.*;
-import utils.SemanticError;
+import Utils.SemanticError;
 
 import java.util.ArrayList;
 import java.util.Arrays;

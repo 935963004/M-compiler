@@ -3,8 +3,8 @@ package Frontend;
 import AST.*;
 import Scope.*;
 import Type.*;
-import utils.CompilerError;
-import utils.SemanticError;
+import Utils.CompilerError;
+import Utils.SemanticError;
 
 public class SemanticChecker extends ScopeBuilder
 {

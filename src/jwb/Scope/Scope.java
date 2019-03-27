@@ -1,7 +1,7 @@
 package Scope;
 
 import AST.Location;
-import utils.SemanticError;
+import Utils.SemanticError;
 
 import java.util.HashMap;
 import java.util.Map;

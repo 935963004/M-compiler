@@ -5,7 +5,7 @@ import Parser.MBaseVisitor;
 import Parser.MParser;
 import Type.*;
 import org.antlr.v4.runtime.ParserRuleContext;
-import utils.CompilerError;
+import Utils.CompilerError;
 
 import java.util.ArrayList;
 import java.util.List;

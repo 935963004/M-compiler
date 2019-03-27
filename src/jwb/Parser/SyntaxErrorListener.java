@@ -5,7 +5,7 @@ import AST.Location;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
-import utils.SyntaxError;
+import Utils.SyntaxError;
 
 public class SyntaxErrorListener extends BaseErrorListener
 {
