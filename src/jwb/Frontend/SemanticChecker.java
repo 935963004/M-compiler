@@ -51,8 +51,7 @@ public class SemanticChecker extends ScopeBuilder
     {
         if (node.getExpr().getType() instanceof NullType) return !(node.getType().getType() instanceof ClassType || node.getType().getType() instanceof ArrayType);
         if (node.getType().getType() instanceof VoidType || node.getExpr().getType() instanceof VoidType) return true;
-        if (node.getType().getType().equals(node.getExpr().getType())) return false;
-        return true;
+        return !node.getType().getType().equals(node.getExpr().getType());
     }
 
     @Override
@@ -171,9 +170,7 @@ public class SemanticChecker extends ScopeBuilder
     private boolean checkReturn(Type returnType)
     {
         if (returnType instanceof NullType) return !(currentReturnType instanceof ArrayType || currentReturnType instanceof ClassType);
-        if (returnType.equals(currentReturnType)) return false;
-        if (returnType.equals(currentReturnType)) return false;
-        return true;
+        return !returnType.equals(currentReturnType);
     }
 
     @Override
@@ -209,8 +206,7 @@ public class SemanticChecker extends ScopeBuilder
     {
         if (exprType instanceof VoidType) return true;
         if (exprType instanceof NullType) return !(paraType instanceof ArrayType || paraType instanceof ClassType);
-        if (exprType.equals(paraType)) return false;
-        return true;
+        return !exprType.equals(paraType);
     }
 
     @Override
