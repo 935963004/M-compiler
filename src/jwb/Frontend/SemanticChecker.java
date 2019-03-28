@@ -315,7 +315,7 @@ public class SemanticChecker extends ScopeBuilder
                     break;
                 case UNEQUAL:
                 case EQUAL:
-                    if (cmpBinType(node.getLhs().getType(), node.getRhs().getType())) throw new SemanticError(node.getLocation(), "Expression's type not match");
+                    if (checkBinType(node.getLhs().getType(), node.getRhs().getType())) throw new SemanticError(node.getLocation(), "Expression's type not match");
                     node.setType(BoolType.getBoolType());
                     break;
                 case GREATER_EQUAL:
@@ -337,7 +337,7 @@ public class SemanticChecker extends ScopeBuilder
         node.setLeftValue(false);
     }
 
-    private boolean cmpBinType(Type l, Type r)
+    private boolean checkBinType(Type l, Type r)
     {
         if (l instanceof VoidType || r instanceof VoidType) return true;
         if (l.equals(r)) return false;
@@ -352,12 +352,12 @@ public class SemanticChecker extends ScopeBuilder
         node.getLhs().accept(this);
         node.getRhs().accept(this);
         if (!node.getLhs().isLeftValue()) throw new SemanticError(node.getLhs().getLocation(), "LHS should be left value");
-        if (cmpAssignType(node.getLhs().getType(), node.getRhs().getType())) throw new SemanticError(node.getLocation(), "LHS's type and RHS's type not match");
+        if (checkAssignType(node.getLhs().getType(), node.getRhs().getType())) throw new SemanticError(node.getLocation(), "LHS's type and RHS's type not match");
         node.setType(node.getLhs().getType());
         node.setLeftValue(false);
     }
 
-    private boolean cmpAssignType(Type l, Type r)
+    private boolean checkAssignType(Type l, Type r)
     {
         if (l instanceof VoidType || r instanceof VoidType) return true;
         if (l.equals(r)) return false;
