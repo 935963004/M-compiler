@@ -40,7 +40,7 @@ public class Main
         //printAST();
         semanticCheck();
         buildIR();
-        printIR();
+        //printIR();
         generateCode();
     }
 
@@ -97,7 +97,7 @@ public class Main
     private static void generateCode() throws Exception
     {
         String outFile = "D:\\QQPCmgr\\Desktop\\src\\jwb\\gzp.asm";
-        //outFile = null;
+        outFile = null;
         PrintStream outS;
         if (outFile == null) outS = System.out;
         else outS = new PrintStream(new FileOutputStream(outFile));
