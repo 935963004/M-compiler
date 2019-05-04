@@ -96,8 +96,8 @@ public class Main
 
     private static void generateCode() throws Exception
     {
-        String outFile = "D:\\QQPCmgr\\Desktop\\src\\jwb\\gzp.asm";
-        outFile = null;
+        //String outFile = "D:\\QQPCmgr\\Desktop\\src\\jwb\\gzp.asm";
+        String outFile = null;
         PrintStream outS;
         if (outFile == null) outS = System.out;
         else outS = new PrintStream(new FileOutputStream(outFile));
