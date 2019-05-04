@@ -47,7 +47,7 @@ public class Main
     private static void buildAST() throws Exception
     {
         String inFile = "D:\\QQPCmgr\\Desktop\\src\\jwb\\test.txt";
-        //inFile = null;
+        inFile = null;
         InputStream inS;
         if (inFile == null) inS = System.in;
         else inS = new FileInputStream(inFile);
@@ -96,8 +96,8 @@ public class Main
 
     private static void generateCode() throws Exception
     {
-        //String outFile = "D:\\QQPCmgr\\Desktop\\src\\jwb\\gzp.asm";
-        String outFile = null;
+        String outFile = "D:\\QQPCmgr\\Desktop\\src\\jwb\\gzp.asm";
+        outFile = null;
         PrintStream outS;
         if (outFile == null) outS = System.out;
         else outS = new PrintStream(new FileOutputStream(outFile));
