@@ -59,7 +59,7 @@ public class NASMPrinter implements IRVisitor
     {
         StringBuilder ret = new StringBuilder();
         int len = str.length();
-        for (int i = 0; i < len; ++i) {
+        for (int i = 1; i < len - 1; ++i) {
             char c = str.charAt(i);
             ret.append((int) c);
             ret.append(", ");
