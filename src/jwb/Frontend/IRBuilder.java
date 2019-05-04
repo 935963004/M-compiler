@@ -418,7 +418,7 @@ public class IRBuilder extends ScopeBuilder
                     currentBB.addInst(new FunctionCall(currentBB, irRoot.getBuiltInFunctions().get(funcName), argList, vr));
                     node.setRegValue(vr);
                     break;
-                case "__member_string_subString":
+                case "__member_string_substring":
                     arg0 = node.getParaList().get(0);
                     arg1 = node.getParaList().get(1);
                     arg0.accept(this);
@@ -426,7 +426,7 @@ public class IRBuilder extends ScopeBuilder
                     argList.add(thisExpr.getRegValue());
                     argList.add(arg0.getRegValue());
                     argList.add(arg1.getRegValue());
-                    vr = new VirtualRegister("subString");
+                    vr = new VirtualRegister("substring");
                     currentBB.addInst(new FunctionCall(currentBB, irRoot.getBuiltInFunctions().get(funcName), argList, vr));
                     node.setRegValue(vr);
                     break;
@@ -580,7 +580,7 @@ public class IRBuilder extends ScopeBuilder
         currentBB.addInst(new BinaryOp(currentBB, Vr, BinaryOp.binaryOp.ADD, Vr, new ImmediateInt(8)));
         currentBB.addInst(new HeapAlloc(currentBB, Vr, Vr));
         currentBB.addInst(new Store(currentBB, exprNode.getRegValue(), 8, Vr, 0));
-        if (idx < node.getDimNum() -  1) {
+        if (idx < node.getExprList().size() -  1) {
             VirtualRegister index = new VirtualRegister(null), address = new VirtualRegister(null);
             currentBB.addInst(new Move(currentBB, index, new ImmediateInt(0)));
             currentBB.addInst(new Move(currentBB, address, Vr));
@@ -736,7 +736,7 @@ public class IRBuilder extends ScopeBuilder
                     }
                     op = BinaryOp.binaryOp.BITWISE_AND;
                     break;
-                case LOGIC_OR:
+                case BITWISE_OR:
                     if (bothImmediate) {
                         node.setRegValue(new ImmediateInt(lhsValue | rhsValue));
                         return;
