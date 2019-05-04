@@ -419,7 +419,7 @@ public class NASMPrinter implements IRVisitor
     {
         if (isDataSection) {
             printf("%s:\n", dataId(node));
-            printf("\t\tdq\t\t%d\n", node.getValue().length());
+            printf("\t\tdq\t\t%d\n", node.getValue().length() - 2);
             printf("\t\tdb\t\t%s\n", getStaticStr(node.getValue()));
         }
         else printf(dataId(node));

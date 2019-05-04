@@ -116,8 +116,8 @@ public class IRBuilder extends ScopeBuilder
                 rhs.getTrueBB().addInst(new Move(rhs.getTrueBB(), (VirtualRegister) lhs, new ImmediateInt(1)));
                 rhs.getFalseBB().addInst(new Move(rhs.getFalseBB(), (VirtualRegister) lhs, new ImmediateInt(0)));
             }
-            if (!rhs.getTrueBB().getHasJumpInst()) rhs.getTrueBB().addInst(new Jump(rhs.getTrueBB(), basicBlock));
-            if (!rhs.getFalseBB().getHasJumpInst()) rhs.getFalseBB().addInst(new Jump(rhs.getFalseBB(), basicBlock));
+            if (!rhs.getTrueBB().getHasJumpInst()) rhs.getTrueBB().setJumpInst(new Jump(rhs.getTrueBB(), basicBlock));
+            if (!rhs.getFalseBB().getHasJumpInst()) rhs.getFalseBB().setJumpInst(new Jump(rhs.getFalseBB(), basicBlock));
             currentBB = basicBlock;
         }
         else {
