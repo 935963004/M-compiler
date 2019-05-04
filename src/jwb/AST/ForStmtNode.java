@@ -10,6 +10,7 @@ public class ForStmtNode extends StmtNode
         this.init = init;
         this.cond = cond;
         this.update = update;
+        this.stmt = stmt;
         this.loc = loc;
     }
 

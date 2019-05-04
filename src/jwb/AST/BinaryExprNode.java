@@ -33,6 +33,16 @@ public class BinaryExprNode extends ExprNode
         return rhs;
     }
 
+    public void setLhs(ExprNode lhs)
+    {
+        this.lhs = lhs;
+    }
+
+    public void setRhs(ExprNode rhs)
+    {
+        this.rhs = rhs;
+    }
+
     @Override
     public void accept(ASTVisitor visitor)
     {

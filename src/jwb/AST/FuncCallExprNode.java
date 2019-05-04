@@ -32,6 +32,11 @@ public class FuncCallExprNode extends ExprNode
         this.funcEntity = funcEntity;
     }
 
+    public FuncEntity getFuncEntity()
+    {
+        return funcEntity;
+    }
+
     @Override
     public void accept(ASTVisitor visitor)
     {

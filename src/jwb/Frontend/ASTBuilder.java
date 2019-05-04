@@ -262,25 +262,62 @@ public class ASTBuilder extends MBaseVisitor<Node>
         ExprNode lhs = (ExprNode) visit(ctx.lhs), rhs = (ExprNode) visit(ctx.rhs);
         BinaryExprNode.binaryOp op;
         switch (ctx.op.getText()) {
-            case "*": op = BinaryExprNode.binaryOp.MUL; break;
-            case "/": op = BinaryExprNode.binaryOp.DIV; break;
-            case "%": op = BinaryExprNode.binaryOp.MOD; break;
-            case "+": op = BinaryExprNode.binaryOp.ADD; break;
-            case "-": op = BinaryExprNode.binaryOp.SUB; break;
-            case "<<": op = BinaryExprNode.binaryOp.SHL; break;
-            case ">>": op = BinaryExprNode.binaryOp.SHR; break;
-            case "<": op = BinaryExprNode.binaryOp.LESS; break;
-            case ">": op = BinaryExprNode.binaryOp.GREATER; break;
-            case "<=": op = BinaryExprNode.binaryOp.LESS_EQUAL; break;
-            case ">=": op = BinaryExprNode.binaryOp.GREATER_EQUAL; break;
-            case "==": op = BinaryExprNode.binaryOp.EQUAL; break;
-            case "!=": op = BinaryExprNode.binaryOp.UNEQUAL; break;
-            case "&": op = BinaryExprNode.binaryOp.BITWISE_AND; break;
-            case "^": op = BinaryExprNode.binaryOp.BITWISE_XOR; break;
-            case "|": op = BinaryExprNode.binaryOp.BITWISE_OR; break;
-            case "&&": op = BinaryExprNode.binaryOp.LOGIC_AND; break;
-            case "||": op = BinaryExprNode.binaryOp.LOGIC_OR; break;
-            default: throw new CompilerError(Location.ctxGetLoc(ctx), "Invalid binary operator");
+            case "*":
+                op = BinaryExprNode.binaryOp.MUL;
+                break;
+            case "/":
+                op = BinaryExprNode.binaryOp.DIV;
+                break;
+            case "%":
+                op = BinaryExprNode.binaryOp.MOD;
+                break;
+            case "+":
+                op = BinaryExprNode.binaryOp.ADD;
+                break;
+            case "-":
+                op = BinaryExprNode.binaryOp.SUB;
+                break;
+            case "<<":
+                op = BinaryExprNode.binaryOp.SHL;
+                break;
+            case ">>":
+                op = BinaryExprNode.binaryOp.SHR;
+                break;
+            case "<":
+                op = BinaryExprNode.binaryOp.LESS;
+                break;
+            case ">":
+                op = BinaryExprNode.binaryOp.GREATER;
+                break;
+            case "<=":
+                op = BinaryExprNode.binaryOp.LESS_EQUAL;
+                break;
+            case ">=":
+                op = BinaryExprNode.binaryOp.GREATER_EQUAL;
+                break;
+            case "==":
+                op = BinaryExprNode.binaryOp.EQUAL;
+                break;
+            case "!=":
+                op = BinaryExprNode.binaryOp.UNEQUAL;
+                break;
+            case "&":
+                op = BinaryExprNode.binaryOp.BITWISE_AND;
+                break;
+            case "^":
+                op = BinaryExprNode.binaryOp.BITWISE_XOR;
+                break;
+            case "|":
+                op = BinaryExprNode.binaryOp.BITWISE_OR;
+                break;
+            case "&&":
+                op = BinaryExprNode.binaryOp.LOGIC_AND;
+                break;
+            case "||":
+                op = BinaryExprNode.binaryOp.LOGIC_OR;
+                break;
+            default:
+                throw new CompilerError(Location.ctxGetLoc(ctx), "Invalid binary operator");
         }
         return new BinaryExprNode(op, lhs, rhs, Location.ctxGetLoc(ctx));
     }

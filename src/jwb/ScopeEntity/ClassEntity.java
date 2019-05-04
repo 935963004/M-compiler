@@ -37,4 +37,9 @@ public class ClassEntity extends Entity
     {
         this.memorySize = memorySize;
     }
+
+    public int getMemorySize()
+    {
+        return memorySize;
+    }
 }

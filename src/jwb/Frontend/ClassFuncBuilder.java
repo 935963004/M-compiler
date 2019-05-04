@@ -59,7 +59,7 @@ public class ClassFuncBuilder extends ScopeBuilder
 
     private void builtInFunction(Scope scope1, String name, List<VarEntity> parameters, Type returnType)
     {
-        FuncEntity entity = new FuncEntity("@F" + name, new FuncType(name));
+        FuncEntity entity = new FuncEntity(name, new FuncType(name));
         entity.setBuiltIn(true);
         entity.setParameters(parameters);
         entity.setReturnType(returnType);

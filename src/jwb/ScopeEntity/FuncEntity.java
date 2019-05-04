@@ -64,8 +64,18 @@ public class FuncEntity extends Entity
         return parameters;
     }
 
+    public String getClassName()
+    {
+        return className;
+    }
+
     public boolean isMember()
     {
         return isMember;
+    }
+
+    public boolean isBuiltIn()
+    {
+        return isBuiltIn;
     }
 }

@@ -78,4 +78,9 @@ public class Scope
         if (isTop) throw new SemanticError(loc, String.format("Entity \"%s\" not found", name));
         return parent.getVarFunc(loc, name);
     }
+
+    public Entity selfGet(String key)
+    {
+        return map.get(key);
+    }
 }

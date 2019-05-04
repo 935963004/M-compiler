@@ -8,4 +8,9 @@ public class CompilerError extends Error
     {
         super(String.format("Compiler Error at %s: %s", loc.toString(), msg));
     }
+
+    public CompilerError(String msg)
+    {
+        super(String.format("Compiler Error: %s", msg));
+    }
 }

@@ -4,8 +4,10 @@ import ScopeEntity.VarEntity;
 
 public class IdExprNode extends ExprNode
 {
-    String name;
-    VarEntity entity;
+    private String name;
+    private VarEntity entity = null;
+    private boolean isChecked = false;
+    private boolean needMemOp;
 
     public IdExprNode(String name, Location loc)
     {
@@ -21,6 +23,31 @@ public class IdExprNode extends ExprNode
     public void setEntity(VarEntity entity)
     {
         this.entity = entity;
+    }
+
+    public boolean isChecked()
+    {
+        return isChecked;
+    }
+
+    public void setChecked(boolean isChecked)
+    {
+        this.isChecked = isChecked;
+    }
+
+    public boolean isNeedMemOp()
+    {
+        return needMemOp;
+    }
+
+    public void setNeedMemOp(boolean needMemOp)
+    {
+        this.needMemOp = needMemOp;
+    }
+
+    public VarEntity getEntity()
+    {
+        return entity;
     }
 
     @Override

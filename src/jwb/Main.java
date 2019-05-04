@@ -1,5 +1,10 @@
 import AST.ProgramNode;
+import Backend.GlobalVarProcessor;
+import Backend.NASMPrinter;
+import Backend.NASMTransformer;
+import Backend.RegisterAllocator;
 import Frontend.*;
+import IR.IRRoot;
 import Parser.MLexer;
 import Parser.MParser;
 import Parser.SyntaxErrorListener;
@@ -16,6 +21,7 @@ public class Main
 {
     private static ProgramNode ast;
     private static Scope globalScope;
+    private static IRRoot irRoot;
 
     public static void main(String[] args) throws Exception
     {
@@ -33,13 +39,15 @@ public class Main
         buildAST();
         //printAST();
         semanticCheck();
-
+        buildIR();
+        printIR();
+        generateCode();
     }
 
     private static void buildAST() throws Exception
     {
         String inFile = "D:\\QQPCmgr\\Desktop\\src\\jwb\\test.txt";
-        inFile = null;
+        //inFile = null;
         InputStream inS;
         if (inFile == null) inS = System.in;
         else inS = new FileInputStream(inFile);
@@ -66,5 +74,36 @@ public class Main
         globalScope = globalScopeBuilder.getScope();
         new ClassVarMemBuilder(globalScope).visit(ast);
         new SemanticChecker(globalScope).visit(ast);
+    }
+
+    private static void buildIR()
+    {
+        IRBuilder irBuilder = new IRBuilder(globalScope);
+        irBuilder.visit(ast);
+        irRoot = irBuilder.getIrRoot();
+        new BinaryOpTransformer(irRoot).run();
+    }
+
+    private static void printIR() throws Exception
+    {
+        String outFile = "D:\\QQPCmgr\\Desktop\\src\\jwb\\gzp.txt";
+        //outFile = null;
+        PrintStream outS;
+        if (outFile == null) outS = System.out;
+        else outS = new PrintStream(new FileOutputStream(outFile));
+        new IRPrinter(outS).visit(irRoot);
+    }
+
+    private static void generateCode() throws Exception
+    {
+        String outFile = "D:\\QQPCmgr\\Desktop\\src\\jwb\\gzp.asm";
+        //outFile = null;
+        PrintStream outS;
+        if (outFile == null) outS = System.out;
+        else outS = new PrintStream(new FileOutputStream(outFile));
+        new GlobalVarProcessor(irRoot).run();
+        new RegisterAllocator(irRoot).run();
+        new NASMTransformer(irRoot).run();
+        new NASMPrinter(outS).visit(irRoot);
     }
 }
