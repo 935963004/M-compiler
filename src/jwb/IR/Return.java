@@ -19,7 +19,7 @@ public class Return extends JumpInstruction
         usedRegisters.clear();
         usedRegValues.clear();
         if (retValue != null) {
-            if (usedRegValues instanceof Register) usedRegisters.add((Register) retValue);
+            if (retValue instanceof Register) usedRegisters.add((Register) retValue);
             usedRegValues.add(retValue);
         }
     }
