@@ -389,7 +389,7 @@ public class ASTBuilder extends MBaseVisitor<Node>
         String str = ctx.getText();
         StringBuffer s = new StringBuffer();
         int len = str.length();
-        for (int i = 0; i < len; ++i) {
+        for (int i = 1; i < len - 1; ++i) {
             if (str.charAt(i) == '\\' && i + 1 < len){
                 if (str.charAt(i + 1) == '\\') s.append('\\');
                 else if (str.charAt(i + 1) == 'n') s.append('\n');
