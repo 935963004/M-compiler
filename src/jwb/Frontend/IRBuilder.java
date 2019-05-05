@@ -772,7 +772,9 @@ public class IRBuilder extends ScopeBuilder
                         return;
                     }
                     if (lhs instanceof ImmediateInt) {
-                        swapLhsRhs(lhs, rhs);
+                        RegValue tmp = rhs;
+                        rhs = lhs;
+                        lhs = tmp;
                         op = Comparison.comparisonOp.GREATER;
                     }
                     else op = Comparison.comparisonOp.LESS;
@@ -784,7 +786,9 @@ public class IRBuilder extends ScopeBuilder
                         return;
                     }
                     if (lhs instanceof ImmediateInt) {
-                        swapLhsRhs(lhs, rhs);
+                        RegValue tmp = rhs;
+                        rhs = lhs;
+                        lhs = tmp;
                         op = Comparison.comparisonOp.LESS;
                     }
                     else op = Comparison.comparisonOp.GREATER;
@@ -796,7 +800,9 @@ public class IRBuilder extends ScopeBuilder
                         return;
                     }
                     if (lhs instanceof ImmediateInt) {
-                        swapLhsRhs(lhs, rhs);
+                        RegValue tmp = rhs;
+                        rhs = lhs;
+                        lhs = tmp;
                         op = Comparison.comparisonOp.GREATER_EQUAL;
                     }
                     else op = Comparison.comparisonOp.LESS_EQUAL;
@@ -808,7 +814,9 @@ public class IRBuilder extends ScopeBuilder
                         return;
                     }
                     if (lhs instanceof ImmediateInt) {
-                        swapLhsRhs(lhs, rhs);
+                        RegValue tmp = rhs;
+                        rhs = lhs;
+                        lhs = tmp;
                         op = Comparison.comparisonOp.LESS_EQUAL;
                     }
                     else op = Comparison.comparisonOp.GREATER_EQUAL;
@@ -819,7 +827,11 @@ public class IRBuilder extends ScopeBuilder
                         else node.setRegValue(new ImmediateInt(0));
                         return;
                     }
-                    if (lhs instanceof ImmediateInt) swapLhsRhs(lhs, rhs);
+                    if (lhs instanceof ImmediateInt) {
+                        RegValue tmp = rhs;
+                        rhs = lhs;
+                        lhs = tmp;
+                    }
                     op = Comparison.comparisonOp.EQUAL;
                     break;
                 case UNEQUAL:
@@ -828,7 +840,11 @@ public class IRBuilder extends ScopeBuilder
                         else node.setRegValue(new ImmediateInt(0));
                         return;
                     }
-                    if (lhs instanceof ImmediateInt) swapLhsRhs(lhs, rhs);
+                    if (lhs instanceof ImmediateInt) {
+                        RegValue tmp = rhs;
+                        rhs = lhs;
+                        lhs = tmp;
+                    }
                     op = Comparison.comparisonOp.UNEQUAL;
                     break;
             }
@@ -837,13 +853,6 @@ public class IRBuilder extends ScopeBuilder
             if (node.getTrueBB() != null) currentBB.setJumpInst(new Branch(currentBB, vr, node.getTrueBB(), node.getFalseBB()));
             else node.setRegValue(vr);
         }
-    }
-
-    private void swapLhsRhs(RegValue lhs, RegValue rhs)
-    {
-        RegValue tmp = lhs;
-        lhs = rhs;
-        rhs = tmp;
     }
 
     private boolean isLogicalBinaryOp(BinaryExprNode.binaryOp op)
