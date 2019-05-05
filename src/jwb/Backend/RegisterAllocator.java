@@ -328,7 +328,11 @@ public class RegisterAllocator
                         List<RegValue> argsList = ((FunctionCall) inst).getArgsList();
                         for (int i = 0; i < argsList.size(); ++i) {
                             RegValue regValue = argsList.get(i);
-                            if (regValue instanceof VirtualRegister) argsList.set(i, getStackSlot((VirtualRegister) regValue, irFunction));
+                            if (regValue instanceof VirtualRegister) {
+                                PhysicalRegister pr = ((VirtualRegister) regValue).getForcedPr();
+                                if (pr != null) argsList.set(i, pr);
+                                else argsList.set(i, getStackSlot((VirtualRegister) regValue, irFunction));
+                            }
                         }
                     }
                     else {

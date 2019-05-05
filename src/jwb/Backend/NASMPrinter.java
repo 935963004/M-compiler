@@ -215,7 +215,7 @@ public class NASMPrinter implements IRVisitor
     public void visit(BinaryOp node)
     {
         if (node.getOp() == BinaryOp.binaryOp.DIV || node.getOp() == BinaryOp.binaryOp.MOD) {
-            printf("\t\tpush\trbx\n");
+            /*printf("\t\tpush\trbx\n");
             printf("\t\tmov\trax, ");
             node.getLhs().accept(this);
             printf("\n\t\tmov\trbx, ");
@@ -229,7 +229,19 @@ public class NASMPrinter implements IRVisitor
             if (node.getOp() == BinaryOp.binaryOp.DIV) printf(", rax\n");
             else printf(", rdx\n");
             printf("\t\tpop\t\trdx\n");
-            printf("\t\tadd\t\trsp, 8\n");
+            printf("\t\tadd\t\trsp, 8\n");*/
+            printf("\t\tmov\t\trbx, ");
+            node.getRhs().accept(this);
+            printf("\n\t\tmov\t\trax, ");
+            node.getLhs().accept(this);
+            printf("\n\t\tmov\t\t%s, rdx\n", pr.getName());
+            printf("\t\tcdq\n");
+            printf("\t\tidiv\trbx\n");
+            printf("\t\tmov\t\t");
+            node.getDestination().accept(this);
+            if (node.getOp() == BinaryOp.binaryOp.DIV) printf(", rax\n");
+            else printf(", rdx\n");
+            printf("\t\tmov\t\trdx, %s\n", pr.getName());
         }
         else if (node.getOp() == BinaryOp.binaryOp.SHL || node.getOp() == BinaryOp.binaryOp.SHR) {
             printf("\t\tmov\t\trbx, rcx\n");
@@ -255,7 +267,7 @@ public class NASMPrinter implements IRVisitor
                         printf("\n");
                         return;
                     }
-                    op = "add";
+                    op = "add\t";
                     break;
                 case SUB:
                     if (node.getRhs() instanceof ImmediateInt && ((ImmediateInt) node.getRhs()).getValue() == 1) {
@@ -264,25 +276,25 @@ public class NASMPrinter implements IRVisitor
                         printf("\n");
                         return;
                     }
-                    op = "sub";
+                    op = "sub\t";
                     break;
                 case MUL:
                     if (node.getRhs() instanceof ImmediateInt && ((ImmediateInt) node.getRhs()).getValue() == 1) return;
                     op = "imul";
                     break;
                 case BITWISE_OR:
-                    op = "or";
+                    op = "or\t";
                     break;
                 case BITWISE_AND:
-                    op = "and";
+                    op = "and\t";
                     break;
                 case BITWISE_XOR:
-                    op = "xor";
+                    op = "xor\t";
                     break;
                 default:
                     throw new CompilerError("Invalid binary operator");
             }
-            printf("\t\t%s\t\t", op);
+            printf("\t\t%s\t", op);
             node.getLhs().accept(this);
             printf(", ");
             node.getRhs().accept(this);
@@ -444,7 +456,7 @@ public class NASMPrinter implements IRVisitor
     @Override
     public void visit(Pop node)
     {
-        printf("\t\tpop\t");
+        printf("\t\tpop\t\t");
         node.getPr().accept(this);
         printf("\n");
     }
