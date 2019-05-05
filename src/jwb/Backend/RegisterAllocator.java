@@ -338,9 +338,12 @@ public class RegisterAllocator
                             for (Register register : usedRegisters) {
                                 if (register instanceof VirtualRegister) {
                                     PhysicalRegister pr = ((VirtualRegister) register).getForcedPr();
+                                    boolean isArg6 = false;
                                     if (pr == null) pr = physicalRegisters.get(cnt++);
+                                    else isArg6 = true;
                                     renameMap.put(register, pr);
                                     irFunction.getUsedPhysicalGeneralRegs().add(pr);
+                                    if (isArg6) continue;
                                     inst.prepend(new Load(bb, pr, 8, getStackSlot((VirtualRegister) register, irFunction), 0));
                                 }
                                 else renameMap.put(register, register);
