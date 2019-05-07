@@ -54,8 +54,8 @@ public class RegisterAllocator
     public void run()
     {
         registerPreProcess();
-        //graphColoringAllocate();
-        naiveAllocate();
+        graphColoringAllocate();
+        //naiveAllocate();
     }
 
     private void registerPreProcess()

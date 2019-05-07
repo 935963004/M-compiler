@@ -215,21 +215,6 @@ public class NASMPrinter implements IRVisitor
     public void visit(BinaryOp node)
     {
         if (node.getOp() == BinaryOp.binaryOp.DIV || node.getOp() == BinaryOp.binaryOp.MOD) {
-            /*printf("\t\tpush\trbx\n");
-            printf("\t\tmov\trax, ");
-            node.getLhs().accept(this);
-            printf("\n\t\tmov\trbx, ");
-            node.getRhs().accept(this);
-            printf("\n\t\tpush\trdx\n");
-            printf("\t\tcdq\n");
-            printf("\t\tidiv\trbx\n");
-            printf("\t\tmov\t\trbx, qword [rsp+8]\n");
-            printf("\t\tmov\t\t");
-            node.getDestination().accept(this);
-            if (node.getOp() == BinaryOp.binaryOp.DIV) printf(", rax\n");
-            else printf(", rdx\n");
-            printf("\t\tpop\t\trdx\n");
-            printf("\t\tadd\t\trsp, 8\n");*/
             printf("\t\tmov\t\trbx, ");
             node.getRhs().accept(this);
             printf("\n\t\tmov\t\trax, ");
