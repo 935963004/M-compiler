@@ -118,7 +118,7 @@ public class IRFunction
         if (visited.contains(bb)) return;
         visited.add(bb);
         reversePreOrder.add(bb);
-        for (BasicBlock nextBB : bb.getNextBBSet()) dfsPostOrder(nextBB);
+        for (BasicBlock nextBB : bb.getNextBBSet()) dfsPreOrder(nextBB);
     }
 
     public void updateCalleeSet()
