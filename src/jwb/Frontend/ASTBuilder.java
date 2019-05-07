@@ -12,6 +12,8 @@ import java.util.List;
 
 public class ASTBuilder extends MBaseVisitor<Node>
 {
+    private boolean commonExprOptimize = true;
+
     @Override
     public Node visitProgram(MParser.ProgramContext ctx)
     {
@@ -319,11 +321,14 @@ public class ASTBuilder extends MBaseVisitor<Node>
             default:
                 throw new CompilerError(Location.ctxGetLoc(ctx), "Invalid binary operator");
         }
-        if (lhs.equals(rhs)) {
+        if (lhs instanceof StrExprNode || rhs instanceof StrExprNode) commonExprOptimize = false;
+        if (lhs instanceof PrefixExprNode || rhs instanceof PrefixExprNode) commonExprOptimize = false;
+        if (lhs instanceof SuffixExprNode || rhs instanceof SuffixExprNode) commonExprOptimize = false;
+        if (commonExprOptimize && lhs.equals(rhs)) {
             if (op == BinaryExprNode.binaryOp.ADD) return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, lhs, new NumExprNode(2, Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
             else if (op == BinaryExprNode.binaryOp.SUB) return new NumExprNode(0, Location.ctxGetLoc(ctx));
         }
-        if (op == BinaryExprNode.binaryOp.ADD || op == BinaryExprNode.binaryOp.SUB) {
+        if (commonExprOptimize && op == BinaryExprNode.binaryOp.ADD || op == BinaryExprNode.binaryOp.SUB) {
             if (lhs instanceof BinaryExprNode && ((BinaryExprNode) lhs).getOp() == BinaryExprNode.binaryOp.MUL) {
                 if (((BinaryExprNode) lhs).getLhs().equals(rhs) && ((BinaryExprNode) lhs).getRhs() instanceof NumExprNode) {
                     if (op == BinaryExprNode.binaryOp.ADD)
@@ -451,6 +456,7 @@ public class ASTBuilder extends MBaseVisitor<Node>
     @Override
     public Node visitStrExpr(MParser.StrExprContext ctx)
     {
+        commonExprOptimize = false;
         String str = ctx.getText();
         StringBuffer s = new StringBuffer();
         int len = str.length();
