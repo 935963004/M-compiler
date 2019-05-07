@@ -364,6 +364,27 @@ public class IRBuilder extends ScopeBuilder
         return false;
     }
 
+    private void processPrintFuncCall(ExprNode arg, String funcName) {
+        if (arg instanceof BinaryExprNode) {
+            processPrintFuncCall(((BinaryExprNode) arg).getLhs(), "print");
+            processPrintFuncCall(((BinaryExprNode) arg).getRhs(), funcName);
+            return;
+        }
+        IRFunction calleeFunc;
+        List<RegValue> vArgs = new ArrayList<>();
+        if (arg instanceof FuncCallExprNode && ((FuncCallExprNode) arg).getFuncEntity().getName() == "toString") {
+            ExprNode intExpr = ((FuncCallExprNode) arg).getParaList().get(0);
+            intExpr.accept(this);
+            calleeFunc = irRoot.getBuiltInFunctions().get(funcName + "Int");
+            vArgs.add(intExpr.getRegValue());
+        } else {
+            arg.accept(this);
+            calleeFunc = irRoot.getBuiltInFunctions().get(funcName);
+            vArgs.add(arg.getRegValue());
+        }
+        currentBB.addInst(new FunctionCall(currentBB, calleeFunc, vArgs, null));
+    }
+
     @Override
     public void visit(FuncCallExprNode node)
     {
@@ -395,6 +416,8 @@ public class IRBuilder extends ScopeBuilder
             switch (funcName) {
                 case "print":
                 case "println":
+//                    arg0 = node.getParaList().get(0);
+//                    processPrintFuncCall(arg0, funcName);
                     arg0 = node.getParaList().get(0);
                     arg0.accept(this);
                     argList.add(arg0.getRegValue());

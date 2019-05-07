@@ -52,6 +52,12 @@ public class IRRoot
         irFunction = new IRFunction("__member_string_ord", "_Z21__member___string_ordPci");
         irFunction.getUsedPhysicalGeneralRegs().addAll(NASMRegisterSet.generalRegs);
         builtInFunctions.put(irFunction.getName(), irFunction);
+        irFunction = new IRFunction("printInt", "_Z8printInti");
+        irFunction.getUsedPhysicalGeneralRegs().addAll(NASMRegisterSet.generalRegs);
+        builtInFunctions.put(irFunction.getName(), irFunction);
+        irFunction = new IRFunction("printlnInt", "_Z10printlnInti");
+        irFunction.getUsedPhysicalGeneralRegs().addAll(NASMRegisterSet.generalRegs);
+        builtInFunctions.put(irFunction.getName(), irFunction);
     }
 
     public Map<String, IRFunction> getFunctions()

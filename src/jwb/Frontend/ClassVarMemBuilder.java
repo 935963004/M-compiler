@@ -13,7 +13,6 @@ import Utils.CompilerError;
 public class ClassVarMemBuilder extends ScopeBuilder
 {
     private Scope globalScope, currentScope;
-    private String currentClassName;
     private int offset;
 
     public ClassVarMemBuilder(Scope globalScope)
@@ -34,7 +33,6 @@ public class ClassVarMemBuilder extends ScopeBuilder
     {
         ClassEntity entity = (ClassEntity) globalScope.get(node.getLocation(), node.getName(), "@C" + node.getName());
         currentScope = entity.getScope();
-        currentClassName = node.getName();
         offset = 0;
         for (VarDeclNode varDeclNode : node.getVarMember()) varDeclNode.accept(this);
         entity.setMemorySize(offset);
@@ -48,7 +46,7 @@ public class ClassVarMemBuilder extends ScopeBuilder
             currentScope.get(node.getLocation(), className, "@C" + className);
         }
         if (node.getExpr() != null) throw new CompilerError(node.getLocation(), String.format("Variable \"%s\" should have no initialization", node.getName()));
-        VarEntity entity = new VarEntity(node.getName(), node.getType().getType(), currentClassName);
+        VarEntity entity = new VarEntity(node.getName(), node.getType().getType());
         entity.setAddrOffset(offset);
         offset += node.getType().getType().getVarSize();
         currentScope.put(node.getLocation(), node.getName(), "@V" + node.getName(), entity);

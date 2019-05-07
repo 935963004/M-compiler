@@ -366,16 +366,16 @@ public class NASMPrinter implements IRVisitor
     @Override
     public void visit(Comparison node)
     {
-        if (node.getLhs() instanceof PhysicalRegister) {
-            printf("\t\tand\t\t");
-            node.getLhs().accept(this);
-            printf(", -1\n");
-        }
-        if (node.getRhs() instanceof  PhysicalRegister) {
-            printf("\t\tand\t\t");
-            node.getRhs().accept(this);
-            printf(", -1\n");
-        }
+//        if (node.getLhs() instanceof PhysicalRegister) {
+//            printf("\t\tand\t\t");
+//            node.getLhs().accept(this);
+//            printf(", -1\n");
+//        }
+//        if (node.getRhs() instanceof  PhysicalRegister) {
+//            printf("\t\tand\t\t");
+//            node.getRhs().accept(this);
+//            printf(", -1\n");
+//        }
         printf("\t\txor\t\trax, rax\n");
         printf("\t\tcmp\t\t");
         node.getLhs().accept(this);

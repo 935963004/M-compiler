@@ -12,7 +12,7 @@ public class FuncEntity extends Entity
 {
     private List<VarEntity> parameters;
     private Type returnType;
-    private boolean isBuiltIn = false, isMember = false, isConstruct = false;
+    private boolean isBuiltIn = false, isMember = false;
     private String className = null;
 
     public FuncEntity(String name, Type type)
@@ -26,7 +26,6 @@ public class FuncEntity extends Entity
         parameters = new ArrayList<>();
         for (VarDeclNode varDeclNode : node.getParameterList()) parameters.add(new VarEntity(varDeclNode));
         returnType = node.getReturnType() == null ? null : node.getReturnType().getType();
-        isConstruct = node.getIsConstruct();
     }
 
     public void setParameters(List<VarEntity> parameters)

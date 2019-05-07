@@ -324,6 +324,8 @@ public class ASTBuilder extends MBaseVisitor<Node>
         if (lhs instanceof StrExprNode || rhs instanceof StrExprNode) commonExprOptimize = false;
         if (lhs instanceof PrefixExprNode || rhs instanceof PrefixExprNode) commonExprOptimize = false;
         if (lhs instanceof SuffixExprNode || rhs instanceof SuffixExprNode) commonExprOptimize = false;
+        if (lhs instanceof AssignExprNode || rhs instanceof AssignExprNode) commonExprOptimize = false;
+        if (lhs instanceof FuncCallExprNode || rhs instanceof FuncCallExprNode) commonExprOptimize = false;
         if (commonExprOptimize && lhs.equals(rhs)) {
             if (op == BinaryExprNode.binaryOp.ADD) return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, lhs, new NumExprNode(2, Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
             else if (op == BinaryExprNode.binaryOp.SUB) return new NumExprNode(0, Location.ctxGetLoc(ctx));
