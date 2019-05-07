@@ -42,4 +42,14 @@ public class FuncCallExprNode extends ExprNode
     {
         visitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof FuncCallExprNode)) return false;
+        for (int i = 0; i < paraList.size(); ++i) {
+            if (!paraList.get(i).equals(((FuncCallExprNode) obj).getParaList().get(i))) return false;
+        }
+        return expr.equals(((FuncCallExprNode) obj).getExpr()) && funcEntity.getClassName().equals(((FuncCallExprNode) obj).getFuncEntity().getClassName()) && funcEntity.getName() == ((FuncCallExprNode) obj).getFuncEntity().getName();
+    }
 }

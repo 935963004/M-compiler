@@ -20,4 +20,11 @@ public class BoolConstExprNode extends ConstExprNode
     {
         visitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof BoolConstExprNode)) return false;
+        return value == ((BoolConstExprNode) obj).getValue();
+    }
 }

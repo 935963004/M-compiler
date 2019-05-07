@@ -12,4 +12,10 @@ public class ThisExprNode extends ExprNode
     {
         visitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        return true;
+    }
 }

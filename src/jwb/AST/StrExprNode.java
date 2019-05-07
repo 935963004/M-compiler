@@ -20,4 +20,11 @@ public class StrExprNode extends ExprNode
     {
         visitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof StrExprNode)) return false;
+        return str == ((StrExprNode) obj).getStr();
+    }
 }

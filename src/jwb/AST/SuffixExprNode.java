@@ -31,4 +31,11 @@ public class SuffixExprNode extends ExprNode
     {
         visitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof SuffixExprNode)) return false;
+        return op == ((SuffixExprNode) obj).getOp() && expr.equals(((SuffixExprNode) obj).getExpr());
+    }
 }

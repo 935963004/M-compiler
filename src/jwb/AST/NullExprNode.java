@@ -12,4 +12,10 @@ public class NullExprNode extends ExprNode
     {
         visitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        return obj instanceof NullExprNode;
+    }
 }

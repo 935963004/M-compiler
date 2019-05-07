@@ -20,4 +20,11 @@ public class NumExprNode extends ExprNode
     {
         visitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof NumExprNode)) return false;
+        return value == ((NumExprNode) obj).getValue();
+    }
 }

@@ -55,4 +55,11 @@ public class IdExprNode extends ExprNode
     {
         visitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof IdExprNode)) return false;
+        return name.equals(((IdExprNode) obj).getName());
+    }
 }

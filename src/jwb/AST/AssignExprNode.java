@@ -26,4 +26,11 @@ public class AssignExprNode extends ExprNode
     {
         visitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof AssignExprNode)) return false;
+        return lhs.equals(((AssignExprNode) obj).getLhs()) && rhs.equals(((AssignExprNode) obj).getRhs());
+    }
 }

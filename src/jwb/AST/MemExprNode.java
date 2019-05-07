@@ -27,4 +27,11 @@ public class MemExprNode extends ExprNode
     {
         visitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof MemExprNode)) return false;
+        return expr.equals(((MemExprNode) obj).getExpr()) && name == ((MemExprNode) obj).getName();
+    }
 }

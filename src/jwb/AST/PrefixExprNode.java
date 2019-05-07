@@ -31,4 +31,11 @@ public class PrefixExprNode extends ExprNode
     {
         visitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof PrefixExprNode)) return false;
+        return op == ((PrefixExprNode) obj).getOp() && expr.equals(((PrefixExprNode) obj).getExpr());
+    }
 }

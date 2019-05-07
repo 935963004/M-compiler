@@ -27,4 +27,11 @@ public class ArrayExprNode extends ExprNode
     {
         visitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof ArrayExprNode)) return false;
+        return arr.equals(((ArrayExprNode) obj).getArr()) && sub.equals(((ArrayExprNode) obj).getSub());
+    }
 }

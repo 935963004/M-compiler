@@ -48,4 +48,11 @@ public class BinaryExprNode extends ExprNode
     {
         visitor.visit(this);
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof BinaryExprNode)) return false;
+        return op == ((BinaryExprNode) obj).getOp() && lhs.equals(((BinaryExprNode) obj).getLhs()) && rhs.equals(((BinaryExprNode) obj).getRhs());
+    }
 }
