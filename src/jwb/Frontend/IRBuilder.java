@@ -60,14 +60,14 @@ public class IRBuilder extends ScopeBuilder
             }
         }
 
-        BlockStmtNode blockStmtNode = new BlockStmtNode(initFuncStmts, null);
-        blockStmtNode.setScope(globalScope);
-        FuncDeclNode funcDeclNode = new FuncDeclNode(new TypeNode(VoidType.getVoidType(), null), "__init_func", new ArrayList<>(), blockStmtNode, null);
-        FuncEntity funcEntity = new FuncEntity(funcDeclNode);
-        globalScope.put("__init_func", "@F__init_func", funcEntity);
-        IRFunction irFunction = new IRFunction(funcEntity);
-        irRoot.getFunctions().put(irFunction.getName(), irFunction);
-        funcDeclNode.accept(this);
+//        BlockStmtNode blockStmtNode = new BlockStmtNode(initFuncStmts, null);
+//        blockStmtNode.setScope(globalScope);
+//        FuncDeclNode funcDeclNode = new FuncDeclNode(new TypeNode(VoidType.getVoidType(), null), "__init_func", new ArrayList<>(), blockStmtNode, null);
+//        FuncEntity funcEntity = new FuncEntity(funcDeclNode);
+//        globalScope.put("__init_func", "@F__init_func", funcEntity);
+//        IRFunction irFunction = new IRFunction(funcEntity);
+//        irRoot.getFunctions().put(irFunction.getName(), irFunction);
+//        funcDeclNode.accept(this);
         for (DeclNode declNode : node.getDecls()) {
             if (declNode instanceof FuncDeclNode || declNode instanceof ClassDeclNode) declNode.accept(this);
         }
@@ -161,7 +161,8 @@ public class IRBuilder extends ScopeBuilder
         for (VarDeclNode varDeclNode : node.getParameterList()) varDeclNode.accept(this);
         isArgDecl = false;
         currentScope = tmp;
-        if (node.getName().equals("main")) currentBB.addInst(new FunctionCall(currentBB, irRoot.getFunctions().get("__init_func"), new ArrayList<>(), null));
+        //if (node.getName().equals("main")) currentBB.addInst(new FunctionCall(currentBB, irRoot.getFunctions().get("__init_func"), new ArrayList<>(), null));
+        if (node.getName().equals("main")) node.getBody().getStmtsAndVarDecls().addAll(0, initFuncStmts);
         node.getBody().accept(this);
         if (!currentBB.isHasJumpInst()) {
             if (node.getReturnType() == null || node.getReturnType().getType() instanceof VoidType) currentBB.setJumpInst(new Return(currentBB, null));

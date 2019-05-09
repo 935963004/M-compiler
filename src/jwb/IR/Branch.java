@@ -60,4 +60,10 @@ public class Branch extends JumpInstruction
         if (condition instanceof Register) condition = renameMap.get(condition);
         updateUsed();
     }
+
+    @Override
+    public Instruction copyRename(Map<Object, Object> renameMap)
+    {
+        return new Branch((BasicBlock) renameMap.getOrDefault(getParentBB(), getParentBB()), (RegValue) renameMap.getOrDefault(condition, condition), (BasicBlock) renameMap.getOrDefault(thenBB, thenBB), (BasicBlock) renameMap.getOrDefault(elseBB, elseBB));
+    }
 }

@@ -77,4 +77,10 @@ public class Comparison extends Instruction
         if (rhs instanceof Register) rhs = renameMap.get(rhs);
         updateUsed();
     }
+
+    @Override
+    public Instruction copyRename(Map<Object, Object> renameMap)
+    {
+        return new Comparison((BasicBlock) renameMap.getOrDefault(getParentBB(), getParentBB()), (Register) renameMap.getOrDefault(destination, destination), op, (RegValue) renameMap.getOrDefault(lhs, lhs), (RegValue) renameMap.getOrDefault(rhs, rhs));
+    }
 }

@@ -1,5 +1,6 @@
 package IR;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -68,5 +69,13 @@ public class FunctionCall extends Instruction
             if (argsList.get(i) instanceof Register) argsList.set(i, renameMap.get((Register) argsList.get(i)));
         }
         updateUsed();
+    }
+
+    @Override
+    public Instruction copyRename(Map<Object, Object> renameMap)
+    {
+        List<RegValue> args = new ArrayList<>();
+        for (RegValue arg : argsList) args.add((RegValue) renameMap.getOrDefault(arg, arg));
+        return new FunctionCall((BasicBlock) renameMap.getOrDefault(getParentBB(), getParentBB()), function, args, (VirtualRegister) renameMap.getOrDefault(destination, destination));
     }
 }

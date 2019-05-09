@@ -99,4 +99,11 @@ public class Load extends Instruction
     {
         this.addrOffset = addrOffset;
     }
+
+    @Override
+    public Instruction copyRename(Map<Object, Object> renameMap)
+    {
+        if (isStaticData) return new Load((BasicBlock) renameMap.getOrDefault(getParentBB(), getParentBB()), (Register) renameMap.getOrDefault(destination, destination), size, (StaticData) renameMap.getOrDefault(address, address), isLoadAddr);
+        return new Load((BasicBlock) renameMap.getOrDefault(getParentBB(), getParentBB()), (Register) renameMap.getOrDefault(destination, destination), size, (RegValue) renameMap.getOrDefault(address, address), addrOffset);
+    }
 }

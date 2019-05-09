@@ -68,4 +68,9 @@ public class UnaryOp extends Instruction
         if (rhs instanceof Register) rhs = renameMap.get(rhs);
         updateUsed();
     }
+
+    @Override
+    public UnaryOp copyRename(Map<Object, Object> renameMap) {
+        return new UnaryOp((BasicBlock) renameMap.getOrDefault(getParentBB(), getParentBB()), (Register) renameMap.getOrDefault(destination, destination), op, (RegValue) renameMap.getOrDefault(rhs, rhs));
+    }
 }

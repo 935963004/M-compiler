@@ -49,4 +49,10 @@ public class Return extends JumpInstruction
         if (retValue != null && retValue instanceof Register) retValue = renameMap.get(retValue);
         updateUsed();
     }
+
+    @Override
+    public Instruction copyRename(Map<Object, Object> renameMap)
+    {
+        return new Return((BasicBlock) renameMap.getOrDefault(getParentBB(), getParentBB()), (RegValue) renameMap.getOrDefault(retValue, retValue));
+    }
 }

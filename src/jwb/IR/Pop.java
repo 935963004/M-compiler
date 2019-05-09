@@ -36,4 +36,10 @@ public class Pop extends Instruction
     {
         return pr;
     }
+
+    @Override
+    public Instruction copyRename(Map<Object, Object> renameMap)
+    {
+        return null;
+    }
 }

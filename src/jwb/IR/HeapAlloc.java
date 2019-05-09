@@ -57,4 +57,10 @@ public class HeapAlloc extends Instruction
         if (allocSize instanceof Register) allocSize = renameMap.get(allocSize);
         updateUsed();
     }
+
+    @Override
+    public Instruction copyRename(Map<Object, Object> renameMap)
+    {
+        return new HeapAlloc((BasicBlock) renameMap.getOrDefault(getParentBB(), getParentBB()), (Register) renameMap.getOrDefault(destination, destination), (RegValue) renameMap.getOrDefault(allocSize, allocSize));
+    }
 }

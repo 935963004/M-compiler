@@ -8,7 +8,7 @@ public class IRFunction
 {
     private String name, builtInFuncLabel;
     private FuncEntity funcEntity;
-    private boolean isBuiltIn = false;
+    private boolean isBuiltIn = false, isRecursive = false;
     private Set<PhysicalRegister> usedPhysicalGeneralRegs = new HashSet<>();
     private BasicBlock startBB = null, endBB = null;
     private List<VirtualRegister> argVrList = new ArrayList<>();
@@ -83,12 +83,11 @@ public class IRFunction
         return reversePostOrder;
     }
 
-    private void calcReversePostOrder()
+    public void calcReversePostOrder()
     {
         reversePostOrder = new ArrayList<>();
         visited.clear();
         dfsPostOrder(startBB);
-        for (int i = 0; i < reversePostOrder.size(); ++i) reversePostOrder.get(i).setPostOrderIndex(i);
         Collections.reverse(reversePostOrder);
     }
 
@@ -164,5 +163,15 @@ public class IRFunction
     public String getBuiltInFuncLabel()
     {
         return builtInFuncLabel;
+    }
+
+    public void setRecursive(boolean isRecursive)
+    {
+        this.isRecursive = isRecursive;
+    }
+
+    public boolean isRecursive()
+    {
+        return isRecursive;
     }
 }

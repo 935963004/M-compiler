@@ -36,4 +36,10 @@ public class Jump extends JumpInstruction
 
     @Override
     public void setUsedRegisters(Map<Register, Register> renameMap) {}
+
+    @Override
+    public Instruction copyRename(Map<Object, Object> renameMap)
+    {
+        return new Jump((BasicBlock) renameMap.getOrDefault(getParentBB(), getParentBB()), (BasicBlock) renameMap.getOrDefault(destBB, destBB));
+    }
 }

@@ -62,4 +62,10 @@ public class Move extends Instruction
         if (rhs instanceof Register) rhs = renameMap.get(rhs);
         updateUsed();
     }
+
+    @Override
+    public Instruction copyRename(Map<Object, Object> renameMap)
+    {
+        return new Move((BasicBlock) renameMap.getOrDefault(getParentBB(), getParentBB()), (Register) renameMap.getOrDefault(lhs, lhs), (RegValue) renameMap.getOrDefault(rhs, rhs));
+    }
 }

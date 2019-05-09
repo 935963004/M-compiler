@@ -37,9 +37,6 @@ public class GlobalVarProcessor
 
     public void run()
     {
-        for (IRFunction irFunction : irRoot.getFunctions().values()) irFunction.updateCalleeSet();
-        irRoot.updateCalleeSet();
-
         for (IRFunction irFunction : irRoot.getFunctions().values()) {
             FuncInfo funcInfo = new FuncInfo();
             funcInfoMap.put(irFunction, funcInfo);

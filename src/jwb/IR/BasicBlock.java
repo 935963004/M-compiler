@@ -12,7 +12,6 @@ public class BasicBlock
     private String name;
     private boolean hasJumpInst = false;
     private Set<BasicBlock> prevBBSet = new HashSet<>(), nextBBSet = new HashSet<>();
-    private int postOrderIndex;
 
     public BasicBlock(IRFunction parentFunc, String name)
     {
@@ -118,13 +117,8 @@ public class BasicBlock
         irVisitor.visit(this);
     }
 
-    public void setPostOrderIndex(int postOrderIndex)
+    public IRFunction getParentFunc()
     {
-        this.postOrderIndex = postOrderIndex;
-    }
-
-    public int getPostOrderIndex()
-    {
-        return postOrderIndex;
+        return parentFunc;
     }
 }

@@ -36,4 +36,10 @@ public class Push extends Instruction
     {
         return value;
     }
+
+    @Override
+    public Instruction copyRename(Map<Object, Object> renameMap)
+    {
+        return null;
+    }
 }

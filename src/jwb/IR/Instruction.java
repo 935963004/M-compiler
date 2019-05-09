@@ -100,4 +100,11 @@ public abstract class Instruction
     {
         return liveOut;
     }
+
+    public abstract Instruction copyRename(Map<Object, Object> renameMap);
+
+    public List<RegValue> getUsedRegValues()
+    {
+        return usedRegValues;
+    }
 }
