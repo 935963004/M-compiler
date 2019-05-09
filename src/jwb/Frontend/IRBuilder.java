@@ -22,8 +22,10 @@ public class IRBuilder extends ScopeBuilder
     private String currentClassName = null;
     private IRFunction currentFunction = null;
     private BasicBlock currentBB = null;
-    private boolean isArgDecl = false, wantAddr = false;
+    private boolean isArgDecl = false, wantAddr = false, isInForStmt = false;
     private BasicBlock currentLoopUpdateBB = null, currentLoopAfterBB = null;
+    private List<String> forVarName = new ArrayList<>();
+    private List<Integer> forVarNum = new ArrayList<>();
 
     public IRBuilder(Scope globalScope)
     {
@@ -216,7 +218,13 @@ public class IRBuilder extends ScopeBuilder
         }
         node.getCondition().setTrueBB(thenBB);
         node.getCondition().accept(this);
-        if (node.getCondition() instanceof BoolConstExprNode) currentBB.addInst(new Branch(currentBB, node.getCondition().getRegValue(), node.getCondition().getTrueBB(), node.getCondition().getFalseBB()));
+        if (isInForStmt && node.getCondition() instanceof BinaryExprNode && ((BinaryExprNode) node.getCondition()).getOp() == BinaryExprNode.binaryOp.GREATER_EQUAL) {
+            if (((BinaryExprNode) node.getCondition()).getLhs() instanceof IdExprNode && ((BinaryExprNode) node.getCondition()).getRhs() instanceof NumExprNode) {
+                forVarName.add(((IdExprNode) ((BinaryExprNode) node.getCondition()).getLhs()).getName());
+                forVarNum.add(((NumExprNode) ((BinaryExprNode) node.getCondition()).getRhs()).getValue());
+            }
+        }
+        if (node.getCondition() instanceof BoolConstExprNode) currentBB.setJumpInst(new Branch(currentBB, node.getCondition().getRegValue(), node.getCondition().getTrueBB(), node.getCondition().getFalseBB()));
         currentBB = thenBB;
         node.getThenStmt().accept(this);
         if (!currentBB.getHasJumpInst()) currentBB.setJumpInst(new Jump(currentBB, afterBB));
@@ -252,6 +260,7 @@ public class IRBuilder extends ScopeBuilder
     @Override
     public void visit(ForStmtNode node)
     {
+        isInForStmt = true;
         BasicBlock condBB, updateBB, bodyBB = new BasicBlock(currentFunction, "for_body"), afterBB = new BasicBlock(currentFunction, "for_after");
         if (node.getCond() != null) condBB = new BasicBlock(currentFunction, "for_cond");
         else condBB = bodyBB;
@@ -260,6 +269,7 @@ public class IRBuilder extends ScopeBuilder
         BasicBlock tmpLoopUpdateBB = currentLoopUpdateBB, tmpLoopAfterBB = currentLoopAfterBB;
         currentLoopUpdateBB = updateBB;
         currentLoopAfterBB = afterBB;
+        BasicBlock tmpBB = currentBB;
         if (node.getInit() != null) node.getInit().accept(this);
         currentBB.setJumpInst(new Jump(currentBB, condBB));
         if (node.getCond() != null) {
@@ -277,9 +287,26 @@ public class IRBuilder extends ScopeBuilder
         currentBB = bodyBB;
         if (node.getStmt() != null) node.getStmt().accept(this);
         if (!currentBB.getHasJumpInst()) currentBB.setJumpInst(new Jump(currentBB, updateBB));
+        Instruction inst = tmpBB.getTail().getPrev();
+        if (node.getInit() instanceof AssignExprNode && node.getCond() instanceof BinaryExprNode && ((BinaryExprNode) node.getCond()).getOp() == BinaryExprNode.binaryOp.LESS) {
+            if (((BinaryExprNode) node.getCond()).getLhs() instanceof IdExprNode && ((AssignExprNode) node.getInit()).getLhs() instanceof IdExprNode) {
+                IdExprNode cond = (IdExprNode) ((BinaryExprNode) node.getCond()).getLhs(), init = (IdExprNode) ((AssignExprNode) node.getInit()).getLhs();
+                if (cond.getName().equals(init.getName())) {
+                    for (int i = 0; i < forVarName.size(); ++i) {
+                        if (init.getName().equals(forVarName.get(i)) && inst instanceof Move) {
+                            ((Move) inst).setRhs(new ImmediateInt(forVarNum.get(i)));
+                            forVarName.remove(i);
+                            forVarNum.remove(i);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         currentLoopUpdateBB = tmpLoopUpdateBB;
         currentLoopAfterBB = tmpLoopAfterBB;
         currentBB = afterBB;
+        isInForStmt = false;
     }
 
     @Override
@@ -416,12 +443,12 @@ public class IRBuilder extends ScopeBuilder
             switch (funcName) {
                 case "print":
                 case "println":
-//                    arg0 = node.getParaList().get(0);
-//                    processPrintFuncCall(arg0, funcName);
                     arg0 = node.getParaList().get(0);
-                    arg0.accept(this);
-                    argList.add(arg0.getRegValue());
-                    currentBB.addInst(new FunctionCall(currentBB, irRoot.getBuiltInFunctions().get(funcName), argList, null));
+                    processPrintFuncCall(arg0, funcName);
+//                    arg0 = node.getParaList().get(0);
+//                    arg0.accept(this);
+//                    argList.add(arg0.getRegValue());
+//                    currentBB.addInst(new FunctionCall(currentBB, irRoot.getBuiltInFunctions().get(funcName), argList, null));
                     break;
                 case "getString":
                     vr = new VirtualRegister("getString");

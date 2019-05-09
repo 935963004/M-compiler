@@ -39,6 +39,11 @@ public class Move extends Instruction
         return rhs;
     }
 
+    public void setRhs(RegValue rhs)
+    {
+        this.rhs = rhs;
+    }
+
     @Override
     public Register getDefinedRegister()
     {
