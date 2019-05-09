@@ -88,6 +88,7 @@ public class IRFunction
         reversePostOrder = new ArrayList<>();
         visited.clear();
         dfsPostOrder(startBB);
+        for (int i = 0; i < reversePostOrder.size(); ++i) reversePostOrder.get(i).setPostOrderIndex(i);
         Collections.reverse(reversePostOrder);
     }
 

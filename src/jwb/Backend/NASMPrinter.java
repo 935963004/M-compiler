@@ -180,12 +180,14 @@ public class NASMPrinter implements IRVisitor
         node.getCondition().accept(this);
         printf(", 1\n");
         printf("\t\tje\t\t%s\n", bbId(node.getThenBB()));
+        if (node.getElseBB().getPostOrderIndex() + 1 == node.getParentBB().getPostOrderIndex()) return;
         printf("\t\tjmp\t\t%s\n", bbId(node.getElseBB()));
     }
 
     @Override
     public void visit(Jump node)
     {
+        if (node.getDestBB().getPostOrderIndex() + 1 == node.getParentBB().getPostOrderIndex()) return;
         printf("\t\tjmp\t\t%s\n", bbId(node.getDestBB()));
     }
 
