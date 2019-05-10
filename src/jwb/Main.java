@@ -1,8 +1,5 @@
 import AST.ProgramNode;
-import Backend.GlobalVarProcessor;
-import Backend.NASMPrinter;
-import Backend.NASMTransformer;
-import Backend.RegisterAllocator;
+import Backend.*;
 import Frontend.*;
 import IR.IRRoot;
 import Parser.MLexer;
@@ -101,6 +98,7 @@ public class Main
         PrintStream outS;
         if (outFile == null) outS = System.out;
         else outS = new PrintStream(new FileOutputStream(outFile));
+        new FunctionInLineOptimizer(irRoot).run();
         new GlobalVarProcessor(irRoot).run();
         new RegisterAllocator(irRoot).run();
         new NASMTransformer(irRoot).run();
