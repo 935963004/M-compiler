@@ -22,7 +22,8 @@ public class IRBuilder extends ScopeBuilder
     private String currentClassName = null;
     private IRFunction currentFunction = null;
     private BasicBlock currentBB = null;
-    private boolean isArgDecl = false, wantAddr = false, isInForStmt = false;
+    private boolean isArgDecl = false, wantAddr = false;
+    private int isInForStmt = 0;
     private BasicBlock currentLoopUpdateBB = null, currentLoopAfterBB = null;
     private List<String> forVarName = new ArrayList<>();
     private List<Integer> forVarNum = new ArrayList<>();
@@ -220,7 +221,7 @@ public class IRBuilder extends ScopeBuilder
         }
         node.getCondition().setTrueBB(thenBB);
         node.getCondition().accept(this);
-        if (isInForStmt && node.getCondition() instanceof BinaryExprNode && ((BinaryExprNode) node.getCondition()).getOp() == BinaryExprNode.binaryOp.GREATER_EQUAL) {
+        if (isInForStmt > 0 && node.getCondition() instanceof BinaryExprNode && ((BinaryExprNode) node.getCondition()).getOp() == BinaryExprNode.binaryOp.GREATER_EQUAL) {
             if (((BinaryExprNode) node.getCondition()).getLhs() instanceof IdExprNode && ((BinaryExprNode) node.getCondition()).getRhs() instanceof NumExprNode) {
                 forVarName.add(((IdExprNode) ((BinaryExprNode) node.getCondition()).getLhs()).getName());
                 forVarNum.add(((NumExprNode) ((BinaryExprNode) node.getCondition()).getRhs()).getValue());
@@ -262,7 +263,7 @@ public class IRBuilder extends ScopeBuilder
     @Override
     public void visit(ForStmtNode node)
     {
-        isInForStmt = true;
+        ++isInForStmt;
         BasicBlock condBB, updateBB, bodyBB = new BasicBlock(currentFunction, "for_body"), afterBB = new BasicBlock(currentFunction, "for_after");
         if (node.getCond() != null) condBB = new BasicBlock(currentFunction, "for_cond");
         else condBB = bodyBB;
@@ -308,7 +309,11 @@ public class IRBuilder extends ScopeBuilder
         currentLoopUpdateBB = tmpLoopUpdateBB;
         currentLoopAfterBB = tmpLoopAfterBB;
         currentBB = afterBB;
-        isInForStmt = false;
+        --isInForStmt;
+        if (isInForStmt == 0) {
+            forVarNum.clear();
+            forVarNum.clear();
+        }
     }
 
     @Override
