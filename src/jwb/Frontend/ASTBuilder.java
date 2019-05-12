@@ -330,7 +330,7 @@ public class ASTBuilder extends MBaseVisitor<Node>
             if (op == BinaryExprNode.binaryOp.ADD) return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, lhs, new NumExprNode(2, Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
             else if (op == BinaryExprNode.binaryOp.SUB) return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, lhs, new NumExprNode(0, Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
         }
-        if (commonExprOptimize && op == BinaryExprNode.binaryOp.ADD || op == BinaryExprNode.binaryOp.SUB) {
+        if (commonExprOptimize && (op == BinaryExprNode.binaryOp.ADD || op == BinaryExprNode.binaryOp.SUB)) {
             if (lhs instanceof BinaryExprNode && ((BinaryExprNode) lhs).getOp() == BinaryExprNode.binaryOp.MUL) {
                 if (((BinaryExprNode) lhs).getLhs().equals(rhs) && ((BinaryExprNode) lhs).getRhs() instanceof NumExprNode) {
                     if (op == BinaryExprNode.binaryOp.ADD)
