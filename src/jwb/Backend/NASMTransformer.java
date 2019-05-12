@@ -134,10 +134,14 @@ public class NASMTransformer
                             inst.prepend(new Push(bb, pr));
                             ++pushCallerSaveRegsNum;
                         }
+                        int arg6Num = irFunction.getArgVrList().size() > 6 ? 6 : irFunction.getArgVrList().size();
+                        for (int i = 0; i < arg6Num; ++i) inst.prepend(new Push(bb, NASMRegisterSet.argRegs.get(i)));
+                        pushCallerSaveRegsNum += arg6Num;
                         inst.prepend(new Move(bb, NASMRegisterSet.rdi, ((HeapAlloc) inst).getAllocSize()));
                         if (pushCallerSaveRegsNum % 2 == 1) inst.prepend(new Push(bb, new ImmediateInt(0)));
                         inst.append(new Move(bb, ((HeapAlloc) inst).getDestination(), NASMRegisterSet.rax));
                         for (PhysicalRegister pr : funcInfo.usedCallerSaveRegs) inst.append(new Pop(bb, pr));
+                        for (int i = 0; i < arg6Num; ++i) inst.append(new Pop(bb, NASMRegisterSet.argRegs.get(i)));
                         if (pushCallerSaveRegsNum % 2 == 1) inst.append(new BinaryOp(bb, NASMRegisterSet.rsp, BinaryOp.binaryOp.ADD, NASMRegisterSet.rsp, new ImmediateInt(8)));
                     }
                     else if (inst instanceof Load) {

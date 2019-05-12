@@ -71,6 +71,8 @@ public class IRBuilder extends ScopeBuilder
         for (DeclNode declNode : node.getDecls()) {
             if (declNode instanceof FuncDeclNode || declNode instanceof ClassDeclNode) declNode.accept(this);
         }
+        for (IRFunction irFunction1 : irRoot.getFunctions().values()) irFunction1.updateCalleeSet();
+        irRoot.updateCalleeSet();
     }
 
     @Override

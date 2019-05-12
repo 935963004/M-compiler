@@ -26,8 +26,8 @@ public class IRRoot
         irFunction.getUsedPhysicalGeneralRegs().addAll(NASMRegisterSet.generalRegs);
         builtInFunctions.put(irFunction.getName(), irFunction);
         irFunction = new IRFunction("__builtin_string_less_equal", "__builtin_string_less_equal");
+        irFunction.getUsedPhysicalGeneralRegs().addAll(NASMRegisterSet.generalRegs);
         builtInFunctions.put(irFunction.getName(), irFunction);
-        irFunction.getUsedPhysicalGeneralRegs().addAll((NASMRegisterSet.generalRegs));
         irFunction = new IRFunction("print", "_Z5printPc");
         irFunction.getUsedPhysicalGeneralRegs().addAll(NASMRegisterSet.generalRegs);
         builtInFunctions.put(irFunction.getName(), irFunction);
