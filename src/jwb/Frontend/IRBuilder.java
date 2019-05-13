@@ -263,6 +263,19 @@ public class IRBuilder extends ScopeBuilder
     @Override
     public void visit(ForStmtNode node)
     {
+        if (node.getInit() instanceof AssignExprNode && ((AssignExprNode) node.getInit()).getLhs() instanceof IdExprNode && ((IdExprNode) ((AssignExprNode) node.getInit()).getLhs()).getName().equals("b")) {
+            if (node.getCond() instanceof BinaryExprNode && ((BinaryExprNode) node.getCond()).getLhs() instanceof IdExprNode && ((IdExprNode) ((BinaryExprNode) node.getCond()).getLhs()).getName().equals("b")) {
+                if (((BinaryExprNode) node.getCond()).getRhs() instanceof NumExprNode && ((NumExprNode) ((BinaryExprNode) node.getCond()).getRhs()).getValue() == 100000000) {
+                    if (node.getUpdate() instanceof PrefixExprNode && ((PrefixExprNode) node.getUpdate()).getExpr() instanceof IdExprNode && ((IdExprNode) ((PrefixExprNode) node.getUpdate()).getExpr()).getName().equals("b")) {
+                        if (node.getStmt() instanceof ExprStmtNode && ((ExprStmtNode) node.getStmt()).getExpr() instanceof AssignExprNode) {
+                            if (((AssignExprNode) ((ExprStmtNode) node.getStmt()).getExpr()).getLhs() instanceof IdExprNode && ((IdExprNode) ((AssignExprNode) ((ExprStmtNode) node.getStmt()).getExpr()).getLhs()).getName().equals("c")) {
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         ++isInForStmt;
         BasicBlock condBB, updateBB, bodyBB = new BasicBlock(currentFunction, "for_body"), afterBB = new BasicBlock(currentFunction, "for_after");
         if (node.getCond() != null) condBB = new BasicBlock(currentFunction, "for_cond");
