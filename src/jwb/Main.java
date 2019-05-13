@@ -43,11 +43,7 @@ public class Main
 
     private static void buildAST() throws Exception
     {
-        String inFile = "D:\\QQPCmgr\\Desktop\\src\\jwb\\test.txt";
-        inFile = null;
-        InputStream inS;
-        if (inFile == null) inS = System.in;
-        else inS = new FileInputStream(inFile);
+        InputStream inS = System.in;
         CharStream input = CharStreams.fromStream(inS);
         MLexer lexer = new MLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -93,11 +89,7 @@ public class Main
 
     private static void generateCode() throws Exception
     {
-        String outFile = "D:\\QQPCmgr\\Desktop\\src\\jwb\\gzp.asm";
-        outFile = null;
-        PrintStream outS;
-        if (outFile == null) outS = System.out;
-        else outS = new PrintStream(new FileOutputStream(outFile));
+        PrintStream outS = System.out;
         new FunctionInLineOptimizer(irRoot).run();
         new GlobalVarProcessor(irRoot).run();
         new RegisterAllocator(irRoot).run();
