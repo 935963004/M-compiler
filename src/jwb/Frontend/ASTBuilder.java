@@ -334,29 +334,29 @@ public class ASTBuilder extends MBaseVisitor<Node>
             if (lhs instanceof BinaryExprNode && ((BinaryExprNode) lhs).getOp() == BinaryExprNode.binaryOp.MUL) {
                 if (((BinaryExprNode) lhs).getLhs().equals(rhs) && ((BinaryExprNode) lhs).getRhs() instanceof NumExprNode) {
                     if (op == BinaryExprNode.binaryOp.ADD)
-                        return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, lhs, new NumExprNode(((NumExprNode) ((BinaryExprNode) lhs).getRhs()).getValue() + 1, Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
+                        return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, rhs, new NumExprNode(((NumExprNode) ((BinaryExprNode) lhs).getRhs()).getValue() + 1, Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
                     else if (op == BinaryExprNode.binaryOp.SUB)
-                        return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, lhs, new NumExprNode(((NumExprNode) ((BinaryExprNode) lhs).getRhs()).getValue() - 1, Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
+                        return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, rhs, new NumExprNode(((NumExprNode) ((BinaryExprNode) lhs).getRhs()).getValue() - 1, Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
                 }
                 if (((BinaryExprNode) lhs).getRhs().equals(rhs) && ((BinaryExprNode) lhs).getLhs() instanceof NumExprNode) {
                     if (op == BinaryExprNode.binaryOp.ADD)
-                        return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, lhs, new NumExprNode(((NumExprNode) ((BinaryExprNode) lhs).getLhs()).getValue() + 1, Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
+                        return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, rhs, new NumExprNode(((NumExprNode) ((BinaryExprNode) lhs).getLhs()).getValue() + 1, Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
                     else if (op == BinaryExprNode.binaryOp.SUB)
-                        return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, lhs, new NumExprNode(((NumExprNode) ((BinaryExprNode) lhs).getLhs()).getValue() - 1, Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
+                        return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, rhs, new NumExprNode(((NumExprNode) ((BinaryExprNode) lhs).getLhs()).getValue() - 1, Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
                 }
             }
             if (rhs instanceof BinaryExprNode && ((BinaryExprNode) rhs).getOp() == BinaryExprNode.binaryOp.MUL) {
                 if (((BinaryExprNode) rhs).getLhs().equals(lhs) && ((BinaryExprNode) rhs).getRhs() instanceof NumExprNode) {
                     if (op == BinaryExprNode.binaryOp.ADD)
-                        return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, rhs, new NumExprNode(((NumExprNode) ((BinaryExprNode) rhs).getRhs()).getValue() + 1, Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
+                        return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, lhs, new NumExprNode(1 + ((NumExprNode) ((BinaryExprNode) rhs).getRhs()).getValue(), Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
                     else if (op == BinaryExprNode.binaryOp.SUB)
-                        return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, rhs, new NumExprNode(((NumExprNode) ((BinaryExprNode) rhs).getRhs()).getValue() - 1, Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
+                        return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, lhs, new NumExprNode(1 - ((NumExprNode) ((BinaryExprNode) rhs).getRhs()).getValue(), Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
                 }
                 if (((BinaryExprNode) rhs).getRhs().equals(lhs) && ((BinaryExprNode) rhs).getLhs() instanceof NumExprNode) {
                     if (op == BinaryExprNode.binaryOp.ADD)
-                        return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, rhs, new NumExprNode(((NumExprNode) ((BinaryExprNode) lhs).getLhs()).getValue() + 1, Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
+                        return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, lhs, new NumExprNode(1 + ((NumExprNode) ((BinaryExprNode) rhs).getLhs()).getValue(), Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
                     else if (op == BinaryExprNode.binaryOp.SUB)
-                        return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, rhs, new NumExprNode(((NumExprNode) ((BinaryExprNode) lhs).getLhs()).getValue() - 1, Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
+                        return new BinaryExprNode(BinaryExprNode.binaryOp.MUL, lhs, new NumExprNode(1 - ((NumExprNode) ((BinaryExprNode) rhs).getLhs()).getValue(), Location.ctxGetLoc(ctx)), Location.ctxGetLoc(ctx));
                 }
             }
             if (lhs instanceof BinaryExprNode && rhs instanceof BinaryExprNode && ((BinaryExprNode) lhs).getOp() == BinaryExprNode.binaryOp.MUL && ((BinaryExprNode) rhs).getOp() == BinaryExprNode.binaryOp.MUL) {

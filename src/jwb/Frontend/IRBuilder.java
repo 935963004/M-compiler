@@ -821,6 +821,26 @@ public class IRBuilder extends ScopeBuilder
                     op = BinaryOp.binaryOp.BITWISE_XOR;
                     break;
             }
+            if (op == BinaryOp.binaryOp.MOD && rhs instanceof ImmediateInt && rhsValue > 10){
+                long val = Long.parseLong(rhsValue + "");
+                int cnt = 0;
+                while (val % 2 == 0) {
+                    cnt++;
+                    val /= 2;
+                }
+                if (val != 1){
+                    VirtualRegister vr = new VirtualRegister(null);
+                    long mo = 1L << 32;
+                    int x = Integer.parseInt(String.valueOf((mo - 1) / val + 1));
+                    currentBB.addInst(new BinaryOp(currentBB, vr, BinaryOp.binaryOp.SHR, lhs, new ImmediateInt(cnt)));
+                    currentBB.addInst(new BinaryOp(currentBB, vr, BinaryOp.binaryOp.MUL, vr, new ImmediateInt(x)));
+                    currentBB.addInst(new BinaryOp(currentBB, vr, BinaryOp.binaryOp.SHR, vr, new ImmediateInt(32)));
+                    currentBB.addInst(new BinaryOp(currentBB, vr, BinaryOp.binaryOp.MUL, vr, rhs));
+                    currentBB.addInst(new BinaryOp(currentBB, vr, BinaryOp.binaryOp.SUB, lhs, vr));
+                    node.setRegValue(vr);
+                    return;
+                }
+            }
             VirtualRegister vr = new VirtualRegister(null);
             node.setRegValue(vr);
             currentBB.addInst(new BinaryOp(currentBB, vr, op, lhs, rhs));
