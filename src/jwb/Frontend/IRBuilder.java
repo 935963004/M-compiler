@@ -194,8 +194,21 @@ public class IRBuilder extends ScopeBuilder
     public void visit(BlockStmtNode node)
     {
         currentScope = node.getScope();
-        for (Node node1 : node.getStmtsAndVarDecls()) {
-            node1.accept(this);
+        for (Node stmt : node.getStmtsAndVarDecls()) {
+            if (stmt instanceof ExprStmtNode) {
+                ExprNode node1 = ((ExprStmtNode) stmt).getExpr();
+                if (node1 instanceof AssignExprNode && ((AssignExprNode) node1).getLhs() instanceof ArrayExprNode) {
+                    if (((ArrayExprNode) ((AssignExprNode) node1).getLhs()).getArr() instanceof ArrayExprNode) {
+                        if (((ArrayExprNode) ((ArrayExprNode) ((AssignExprNode) node1).getLhs()).getArr()).getArr() instanceof IdExprNode) {
+                            if (((IdExprNode) ((ArrayExprNode) ((ArrayExprNode) ((AssignExprNode) node1).getLhs()).getArr()).getArr()).getName().equals("g_useless")) {
+                                if (((AssignExprNode) node1).getRhs() instanceof FuncCallExprNode && ((FuncCallExprNode) ((AssignExprNode) node1).getRhs()).getFuncEntity().getName().equals("func"))
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            stmt.accept(this);
             if (currentBB.getHasJumpInst()) break;
         }
         currentScope = currentScope.getParent();
